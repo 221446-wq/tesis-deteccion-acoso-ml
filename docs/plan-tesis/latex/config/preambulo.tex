@@ -1,0 +1,163 @@
+% =====================================================================
+%  PREÁMBULO: paquetes, formato APA 7.ª edición y comandos propios
+% =====================================================================
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[a4paper,top=2.54cm,bottom=2.54cm,left=2.54cm,right=2.54cm,headsep=0.6cm,headheight=15pt]{geometry} % APA 7: márgenes de 2,54 cm
+
+% --- Matemática, figuras y tablas ---
+\usepackage{amssymb, amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{multirow}
+\usepackage{pifont}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{positioning, arrows.meta, babel}
+\usepackage{pgfgantt}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+% --- Texto y listas ---
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{orcidlink}
+\usepackage{url}
+
+% --- Referencias en APA 7.ª edición ---
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber,natbib=true]{biblatex}
+\addbibresource{bibliografia/referencias.bib}
+\setlength{\bibhang}{1.27cm}       % sangría francesa
+\setlength{\bibitemsep}{0.5em}
+
+% --- Títulos, índices y número de página ---
+\usepackage{titlesec}
+\usepackage[titles]{tocloft}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\hypersetup{hidelinks, breaklinks=true, pdfstartview=Fit}
+\urlstyle{same}
+
+% =====================================================================
+%  Colores del título: proceso (azul), tecnología (amarillo), contexto (rojo)
+% =====================================================================
+\definecolor{procesoAzul}{RGB}{0,82,165}
+\definecolor{tecnologiaAmarillo}{RGB}{204,153,0}
+\definecolor{contextoRojo}{RGB}{192,0,0}
+\newcommand{\proc}[1]{\textcolor{procesoAzul}{#1}}
+\newcommand{\tec}[1]{\textcolor{tecnologiaAmarillo}{#1}}
+\newcommand{\ctx}[1]{\textcolor{contextoRojo}{#1}}
+
+% colores de los diagramas
+\definecolor{diagAzul}{RGB}{58,98,150}
+\definecolor{diagVerde}{RGB}{46,125,70}
+\definecolor{diagRojo}{RGB}{186,74,52}
+
+% símbolos de la tabla de antecedentes
+\newcommand{\cumple}{\textcolor{green!50!black}{\ding{51}}}
+\newcommand{\nocumple}{\textcolor{red!70!black}{\ding{55}}}
+\newcommand{\parcial}{\textcolor{orange}{$\sim$}}
+
+% =====================================================================
+%  Formato APA 7: tablas y figuras
+%  Número en negrita, título en cursiva en la línea siguiente, nota debajo
+% =====================================================================
+\captionsetup[figure]{labelfont=bf, textfont=it, labelsep=newline, name=Figura, justification=raggedright, singlelinecheck=false}
+\captionsetup[table]{labelfont=bf, textfont=it, labelsep=newline, name=Tabla, justification=raggedright, singlelinecheck=false}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+% algoritmos en español
+\floatname{algorithm}{Algoritmo}
+\algrenewcommand\algorithmicrequire{\textbf{Entrada:}}
+\algrenewcommand\algorithmicensure{\textbf{Salida:}}
+
+% =====================================================================
+%  APA 7: párrafos con sangría de 1,27 cm y sin espacio adicional
+% =====================================================================
+\setlength{\parindent}{1.27cm}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{3em}
+
+% =====================================================================
+%  APA 7: número de página en la esquina superior derecha
+% =====================================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\fancypagestyle{plain}{\fancyhf{}\fancyhead[R]{\thepage}\renewcommand{\headrulewidth}{0pt}}
+
+% =====================================================================
+%  Títulos: "1. Aspectos Generales", "1.1. ...", "1.1.1. ..."
+% =====================================================================
+\titleformat{\chapter}[block]{\normalfont\bfseries\Large\centering}{\thechapter.}{0.5em}{}
+\titlespacing*{\chapter}{0pt}{0pt}{1.2cm}
+\titleformat{name=\chapter,numberless}[block]{\normalfont\bfseries\Large\centering}{}{0pt}{}
+\titlespacing*{name=\chapter,numberless}{0pt}{0pt}{1cm}
+\titleformat{\section}{\normalfont\bfseries\large}{\thesection.}{0.6em}{}
+\titleformat{\subsection}{\normalfont\bfseries\normalsize}{\thesubsection.}{0.6em}{}
+\titleformat{\subsubsection}{\normalfont\bfseries\itshape\normalsize}{}{0pt}{}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+% índice general como el modelo de la escuela
+\addto\captionsspanish{%
+  \renewcommand{\contentsname}{Índice General}%
+  \renewcommand{\listtablename}{Índice de Tablas}%
+  \renewcommand{\listfigurename}{Índice de Figuras}%
+  \renewcommand{\tablename}{Tabla}%
+}
+\renewcommand{\cftchapaftersnum}{.}
+\renewcommand{\cftsecaftersnum}{.}
+\renewcommand{\cftsubsecaftersnum}{.}
+\renewcommand{\cftchapleader}{\hfill}
+\setlength{\cftsecnumwidth}{2.6em}
+\setlength{\cftsubsecnumwidth}{3.4em}
+\renewcommand{\cfttoctitlefont}{\hfill\normalfont\Large\bfseries}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftloftitlefont}{\hfill\normalfont\Large\bfseries}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftlottitlefont}{\hfill\normalfont\Large\bfseries}
+\renewcommand{\cftafterlottitle}{\hfill}
+
+% índice de algoritmos
+\renewcommand{\listalgorithmname}{Índice de Algoritmos}
+
+% índice de ecuaciones
+\newcommand{\listequationsname}{Índice de Ecuaciones}
+\newlistof{ecuaciones}{equ}{\listequationsname}
+\newcommand{\ecuacion}[1]{\addcontentsline{equ}{ecuaciones}{\protect\numberline{\theequation}#1}}
+\setlength{\cftecuacionesnumwidth}{2.5em}
+\renewcommand{\cftequtitlefont}{\hfill\normalfont\Large\bfseries}
+\renewcommand{\cftafterequtitle}{\hfill}
+
+% índice de anexos
+\newcommand{\listanexosname}{Índice de Anexos}
+\newlistof{anexos}{anx}{\listanexosname}
+\setlength{\cftanexosnumwidth}{2.5em}
+\renewcommand{\cftanxtitlefont}{\hfill\normalfont\Large\bfseries}
+\renewcommand{\cftafteranxtitle}{\hfill}
+
+% anexos: aparecen en el índice general y en el índice de anexos
+\newcommand{\registraranexo}[2]{%
+  \addcontentsline{toc}{chapter}{Anexo #1. #2}%
+  \addcontentsline{anx}{anexos}{\protect\numberline{#1}#2}}
+\newcommand{\anexo}[2]{%
+  \clearpage
+  \phantomsection
+  \registraranexo{#1}{#2}%
+  {\noindent\large\bfseries Anexo #1. #2\par}\vspace{0.6cm}}

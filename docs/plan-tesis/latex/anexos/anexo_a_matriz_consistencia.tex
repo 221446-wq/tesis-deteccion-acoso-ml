@@ -1,0 +1,66 @@
+% =====================================================================
+%  ANEXO A: MATRIZ DE CONSISTENCIA
+% =====================================================================
+\begin{landscape}
+\begin{table}[H]
+\vspace*{-2.2cm}
+\phantomsection
+\registraranexo{A}{Matriz de Consistencia}
+{\noindent\large\bfseries Anexo A. Matriz de Consistencia\par}
+\vspace{0.2cm}
+\caption{Matriz de consistencia}
+\label{tab:consistencia}
+\fontsize{7}{8.2}\selectfont
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{threeparttable}
+\begin{tabular}{@{}L{4.9cm} L{4.7cm} L{4.6cm} L{4.2cm} L{6.6cm}@{}}
+\toprule
+\multicolumn{5}{@{}L{25.4cm}@{}}{\normalsize\textbf{Título:} \proc{Desarrollo de} \tec{un modelo de aprendizaje automático} \ctx{para la detección de acoso sexual en relatos de estudiantes de la UNSAAC}} \\
+\midrule
+\textbf{Problemas} & \textbf{Objetivos} & \textbf{Hipótesis} & \textbf{Variables} & \textbf{Indicadores} \\
+\midrule
+\multicolumn{5}{@{}c@{}}{\textbf{General}} \\
+\midrule
+¿En qué medida el \proc{desarrollo de} \tec{un modelo de aprendizaje automático} permite \ctx{la detección de acoso sexual en relatos de estudiantes de la UNSAAC}, en comparación con una línea base de referencia? &
+\proc{Desarrollar} \tec{un modelo de aprendizaje automático} \ctx{para la detección de acoso sexual en relatos de estudiantes de la UNSAAC}, cuyo desempeño se evaluará mediante el macro F1 y la exhaustividad en relatos de prueba, frente a una línea base léxica. &
+El \tec{modelo de aprendizaje automático} \proc{desarrollado} \ctx{detecta acoso sexual en relatos de estudiantes de la UNSAAC} con un desempeño significativamente superior al de una línea base de referencia. &
+\textbf{VI:} modelo de aprendizaje automático (representación, algoritmo, tratamiento del desbalance). \newline \textbf{VD:} detección de acoso sexual (desempeño global, clase positiva, errores). &
+Macro F1; precisión, exhaustividad y F1 de la clase positiva; diferencia frente a la línea base léxica (McNemar e IC 95\,\%). \\
+\midrule
+\multicolumn{5}{@{}c@{}}{\textbf{Específicos}} \\
+\midrule
+\textbf{PE1:} ¿Qué nivel de acuerdo entre anotadores se alcanza al \proc{construir} un corpus anonimizado y anotado de \ctx{relatos de estudiantes de la UNSAAC} para entrenar el \tec{modelo de aprendizaje automático}? &
+\textbf{OE1:} \proc{Construir} un corpus anonimizado y anotado de \ctx{relatos de estudiantes de la UNSAAC} para entrenar y validar el \tec{modelo de aprendizaje automático}, determinando el nivel de acuerdo entre anotadores. &
+\textbf{HE1:} El corpus de \ctx{relatos de estudiantes de la UNSAAC}, \proc{construido} con anonimización y doble anotación, alcanza un acuerdo al menos sustancial ($\kappa \geq 0{,}61$). &
+Control: calidad del corpus. &
+Kappa de Cohen con IC 95\,\%; acuerdo porcentual; tasa de exclusión. \\
+\midrule
+\textbf{PE2:} ¿Qué \tec{modelo de aprendizaje automático}, y con qué tratamiento del desbalance de clases, logra el mejor desempeño en la \ctx{detección de acoso sexual} al ser \proc{entrenado y seleccionado} sin fuga de información? &
+\textbf{OE2:} \proc{Entrenar y seleccionar} el \tec{modelo de aprendizaje automático} con mejor desempeño en la \ctx{detección de acoso sexual}, con y sin tratamiento del desbalance de clases, sin fuga de información. &
+\textbf{HE2:} El tratamiento del desbalance de clases, aplicado al \proc{entrenar} los \tec{modelos de aprendizaje automático} candidatos, incrementa su exhaustividad en la \ctx{detección de acoso sexual}. &
+VI: algoritmo y tratamiento del desbalance. \newline Control: reproducibilidad. &
+Macro F1 de validación por configuración; exhaustividad con y sin tratamiento (IC 95\,\%). \\
+\midrule
+\textbf{PE3:} ¿Qué desempeño alcanza el \tec{modelo seleccionado} al \proc{validarlo} en la \ctx{detección de acoso sexual en relatos de estudiantes de la UNSAAC} frente a una línea base de referencia, y qué errores comete? &
+\textbf{OE3:} \proc{Validar} el desempeño del \tec{modelo seleccionado} en la \ctx{detección de acoso sexual en relatos de estudiantes de la UNSAAC} frente a una línea base de referencia, analizando sus errores. &
+\textbf{HE3:} El \tec{modelo seleccionado}, \proc{validado} en los relatos de prueba, alcanza en la \ctx{detección de acoso sexual} una exhaustividad superior a la de la línea base léxica, incluso en relatos sin términos sexuales explícitos. &
+VD: desempeño en la clase positiva y errores. &
+Exhaustividad global y en relatos sin términos explícitos; McNemar con ajuste de Holm; errores por tipo. \\
+\midrule
+\textbf{PE4:} ¿Cómo \proc{implementar} un prototipo que aplique el \tec{modelo validado} a nuevos \ctx{relatos de estudiantes de la UNSAAC} como apoyo a la revisión humana? &
+\textbf{OE4:} \proc{Implementar} un prototipo que aplique el \tec{modelo validado} a nuevos \ctx{relatos de estudiantes de la UNSAAC} como apoyo a la revisión humana. &
+\textbf{HE4:} El prototipo \proc{implementado} reproduce las predicciones del \tec{modelo validado} sobre nuevos \ctx{relatos de estudiantes de la UNSAAC} y cumple los requisitos funcionales definidos. &
+VD: detección de acoso sexual en relatos nuevos. &
+Coincidencia de predicciones con el modelo; porcentaje de requisitos funcionales aprobados. \\
+\midrule
+\multicolumn{5}{@{}L{25.4cm}@{}}{\textbf{Método.} \textit{Tipo:} aplicada, tecnológica. \textit{Enfoque:} cuantitativo. \textit{Alcance:} explicativo. \textit{Diseño:} experimental computacional factorial con medidas repetidas. \textit{Población:} estudiantes mayores de edad matriculados en la UNSAAC. \textit{Muestra:} no probabilística, voluntaria; piloto de 40 relatos y 400 a 600 relatos válidos. \textit{Instrumentos:} formulario de relato, ficha de anonimización, guía de anotación y registro de experimentos. \textit{Desarrollo:} CRISP-DM en cuatro etapas, una por objetivo específico. \textit{Análisis:} macro F1 y métricas por clase; McNemar con ajuste de Holm; IC 95\,\% por remuestreo; $\alpha = 0{,}05$.} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item \textit{Nota.} PE: problema específico; OE: objetivo específico; HE: hipótesis específica; VI: variable independiente; VD: variable dependiente; IC: intervalo de confianza. Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+\end{landscape}

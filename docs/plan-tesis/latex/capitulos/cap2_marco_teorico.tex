@@ -1,0 +1,443 @@
+% =====================================================================
+%  CAPÍTULO 2: MARCO TEÓRICO
+% =====================================================================
+\chapter{Marco Teórico}
+
+\section{Antecedentes}
+Se revisaron estudios que usan técnicas computacionales para analizar o clasificar textos sobre acoso y violencia sexual, en inglés y en español, revisiones sobre cómo se mide este fenómeno y trabajos sobre acoso sexual en universidades. La Tabla~\ref{tab:antecedentes} resume los más cercanos a esta investigación.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Resumen de los antecedentes más cercanos}
+\label{tab:antecedentes}
+\singlespacing\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{1.9cm} L{2.2cm} L{2.0cm} L{2.4cm} L{1.9cm} L{2.3cm} L{2.6cm}@{}}
+\toprule
+\textbf{Autor y año} & \textbf{Objetivo} & \textbf{Método} & \textbf{Datos} & \textbf{Métricas} & \textbf{Resultados} & \textbf{Limitaciones} \\
+\midrule
+\citet{gorissen2023} & Identificar revelaciones de victimización sexual en línea & Clasificación binaria supervisada & 599\,591 mensajes públicos en neerlandés & Kappa; revisión de falsos negativos & 2927 revelaciones; $\kappa = 0{,}878$ & Victimización sexual en general; detalles del modelo en material suplementario \\
+\citet{wijaya2022} & Clasificar el tipo de acoso & TF-IDF, Naïve Bayes, KNN y SMOTE & 2053 relatos académicos en inglés & AUC, precisión, exhaustividad, F1 & AUC de 0,95 con Naïve Bayes & Clasifica tipos, no presencia de acoso; SMOTE antes de separar la prueba \\
+\citet{karami2020} & Descubrir temas en experiencias de acoso académico & LDA y codificación cualitativa & 2379 relatos en inglés & Peso de temas; kappa & 41 temas agrupados en 5 & No entrena un clasificador \\
+\citet{mohammadi2024} & Detectar sexismo con explicaciones & BERT, CNN y SHAP & 14\,000 publicaciones en inglés & Exactitud, precisión, exhaustividad, F1 & F1 de 0,76 & Sexismo, no acoso; métricas ponderadas \\
+\citet{escobar2022} & Analizar los testimonios de \#Cuéntalo & Clasificación supervisada por frecuencia de palabras y LDA & 52\,411 tuits originales en español & No reportadas & 32\,\% de mensajes con agresiones & Tuits breves; no reporta precisión del clasificador \\
+\citet{imbaquinga2025} & Detectar cibergrooming y cibersexting & MiniLM, SMOTE y LightGBM; prototipo web & Mensajes en español & Precisión, exhaustividad, F1 macro & F1 macro de 96,16\,\% & Mensajes dirigidos a menores, no relatos de acoso \\
+\citet{gutierrez2022} & Medir la prevalencia del hostigamiento sexual & Encuesta transversal & 151 estudiantes de la UNSAAC & Proporciones & 77,5\,\% de prevalencia; menos del 1\,\% denunció & Muestra no probabilística; no analiza textos \\
+\citet{aguirre2022} & Detectar ciberacoso en Twitter & Clasificación binaria con BERT & Publicaciones de Twitter & No reportadas en el texto & Gráficos del entrenamiento & Sin conjunto de prueba independiente \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\scriptsize
+\item \textit{Nota.} Elaboración propia a partir de los estudios citados.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Antecedentes internacionales}
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 1}
+\noindent Gorissen, M., van den Berg, C. J. W., Ruiter, S., \& Bijleveld, C. C. J. H. (2023). Sharing unwanted sexual experiences online: A cross-platform analysis of disclosures before, during and after the \#MeToo movement. \textit{Computers in Human Behavior, 144}, Artículo 107724. \url{https://doi.org/10.1016/j.chb.2023.107724}
+
+\noindent\textbf{Institución:} Vrije Universiteit Amsterdam y Netherlands Institute for the Study of Crime and Law Enforcement, Países Bajos.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Reunieron 599\,591 mensajes públicos en neerlandés publicados entre 2017 y 2018 y plantearon la identificación de revelaciones de victimización sexual como una clasificación binaria supervisada, con un modelo para Twitter y otro para las demás plataformas.
+	\item Etiquetaron a mano 100\,000 mensajes para el entrenamiento. Un segundo anotador codificó 150 mensajes y el acuerdo alcanzó un kappa de 0,878. Al final identificaron 2927 revelaciones, el 80,4\,\% en Twitter.
+	\item Los mensajes de Twitter fueron los más cortos y con menos información, incluso después de controlar la longitud del texto.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es el estudio más parecido a esta tesis en lo técnico, porque entrena un modelo que separa textos con y sin una experiencia personal de victimización sexual. También es útil su forma de etiquetar: los mensajes sin contexto suficiente o que hablaban de terceros se consideraron negativos. Sin embargo, trabaja con publicaciones públicas en neerlandés, tomadas sin consentimiento de sus autores, y su tema es la victimización sexual en general. De este estudio se toma el criterio de \enquote{información insuficiente} para la guía de anotación.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 2}
+\noindent Wijaya, I. D., Putrada, A. G., \& Oktaria, D. (2022). Overcoming data imbalance problems in sexual harassment classification with SMOTE. \textit{International Journal on Information and Communication Technology, 8}(1), 20--29. \url{https://doi.org/10.21108/ijoict.v8i1.622}
+
+\noindent\textbf{Institución:} Telkom University, Indonesia.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Clasificaron 2053 relatos de una encuesta en línea en dos tipos de acoso: ambiente hostil (1842 relatos, 90\,\%) e intercambio condicionado (211 relatos, 10\,\%), usando TF-IDF, SMOTE, Naïve Bayes y KNN.
+	\item Naïve Bayes superó a KNN, con un AUC de 0,95 frente a 0,92.
+	\item Con SMOTE, la precisión de la clase minoritaria en Naïve Bayes subió de 74\,\% a 90\,\%.
+\end{itemize}
+
+\noindent\textbf{Comentario:} El estudio respalda el uso de clasificadores clásicos con TF-IDF y la importancia de tratar el desbalance de clases. Pero su evaluación deja una duda: el diagrama metodológico ubica SMOTE antes de dividir los datos en entrenamiento y prueba, lo que sugiere que el conjunto de prueba pudo incluir ejemplos sintéticos y que las métricas estarían sobrestimadas. En esta tesis, el remuestreo se hará siempre después de separar la prueba y solo con los datos de entrenamiento.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 3}
+\noindent Karami, A., White, C. N., Ford, K., Swan, S., \& Yildiz Spinel, M. (2020). Unwanted advances in higher education: Uncovering sexual harassment experiences in academia with text mining. \textit{Information Processing \& Management, 57}(2), Artículo 102167. \url{https://doi.org/10.1016/j.ipm.2019.102167}
+
+\noindent\textbf{Institución:} University of South Carolina, Estados Unidos.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Analizaron 2379 experiencias de acoso en el ámbito académico con frecuencias de palabras y LDA. De 45 temas, 41 fueron pertinentes y se agruparon en cinco: acoso de género, discriminación sexual, atención sexual no deseada, coerción sexual y represalias.
+	\item La atención sexual no deseada fue el grupo más grande, con 23 de los 41 temas.
+	\item Un codificador externo revisó 11 temas y el acuerdo alcanzó un kappa de 0,80.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es el antecedente que trabaja con el tipo de texto más parecido al de esta tesis: relatos universitarios escritos libremente. Sus categorías sirven de referencia para la guía de anotación. A diferencia de esta tesis, no entrena un detector, porque todos sus textos ya eran experiencias de acoso.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 4}
+\noindent Mohammadi, H., Giachanou, A., \& Bagheri, A. (2024). A transparent pipeline for identifying sexism in social media: Combining explainability with model prediction. \textit{Applied Sciences, 14}(19), Artículo 8620. \url{https://doi.org/10.3390/app14198620}
+
+\noindent\textbf{Institución:} Utrecht University, Países Bajos.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Combinaron versiones de BERT con una red convolucional y usaron SHAP para mostrar qué palabras pesan más cuando un texto se clasifica como sexista.
+	\item Trabajaron con 14\,000 publicaciones de Gab y Reddit del conjunto EDOS, de las cuales el 24\,\% eran sexistas.
+	\item Su mejor modelo alcanzó una exactitud de 0,79, una exhaustividad de 0,79 y un F1 de 0,76, por encima de los modelos que lo componen por separado.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Aporta dos ideas que esta tesis retoma: comparar varios modelos sobre los mismos datos y mostrar las palabras que explican cada predicción, algo que tendrá el prototipo. Hay que tener en cuenta que el sexismo no es lo mismo que el acoso sexual. Además, su exhaustividad coincide con su exactitud, lo que indica métricas ponderadas por clase; por eso su F1 no sirve como meta para esta investigación.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 5}
+\noindent Salawu, S., He, Y., \& Lumsden, J. (2020). Approaches to automated detection of cyberbullying: A survey. \textit{IEEE Transactions on Affective Computing, 11}(1), 3--24. \url{https://doi.org/10.1109/TAFFC.2017.2761757}
+
+\noindent\textbf{Institución:} Aston University, Reino Unido.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Revisaron 46 estudios y agruparon los enfoques de detección en cuatro tipos: aprendizaje supervisado, basados en léxicos, basados en reglas y mixtos.
+	\item La clasificación binaria fue la tarea más común (34 de 46 estudios), y SVM y Naïve Bayes los clasificadores más usados. Solo tres estudios recurrieron a expertos para etiquetar los datos.
+	\item Los principales retos fueron la falta de datos etiquetados y la dificultad de reconocer el acoso sin contexto.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Este trabajo orienta la construcción del corpus, la participación de especialistas en la guía de anotación y el análisis de errores. Su tema es el ciberacoso en general y solo revisó estudios en inglés.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 6}
+\noindent Dutta, A., Banducci, S., \& Camargo, C. Q. (2025). Divided by discipline? A systematic literature review on the quantification of online sexism and misogyny using a semi-automated approach. \textit{Scientometrics, 130}(9), 4915--4971. \url{https://doi.org/10.1007/s11192-025-05410-2}
+
+\noindent\textbf{Institución:} University of Exeter, Reino Unido.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Hicieron una revisión sistemática guiada por PRISMA que partió de 1745 registros e incluyó 48 estudios publicados entre 2012 y 2022.
+	\item Encontraron que las ciencias sociales y las ciencias de la computación definen y miden el sexismo de formas distintas.
+	\item De los conjuntos de datos revisados, 36 estaban en inglés y solo 7 en español.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Muestra por qué hace falta una definición clara y una guía de anotación antes de entrenar un modelo, y confirma que hay pocos recursos en español.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 7}
+\noindent Bondestam, F., \& Lundqvist, M. (2020). Sexual harassment in higher education -- a systematic review. \textit{European Journal of Higher Education, 10}(4), 397--419. \url{https://doi.org/10.1080/21568235.2020.1729833}
+
+\noindent\textbf{Institución:} University of Gothenburg, Suecia.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Revisaron la investigación publicada entre 1966 y 2017, partiendo de 5259 registros.
+	\item En promedio, una de cada cuatro estudiantes mujeres reporta acoso sexual. Las jerarquías, la precariedad laboral, la normalización de la violencia y la cultura del silencio aparecen como factores que lo facilitan, junto con un subregistro constante.
+	\item Casi no hay evidencia sobre el efecto real de las medidas de prevención.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Sustenta la relevancia del problema en las universidades y, sobre todo, el subregistro. No trabaja con algoritmos.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 8}
+\noindent Ríos-Albert, E., Cerdán-Torregrosa, A., Espinar-Ruiz, E., Jaskulska, S., Jankowiak, B., Del Piccolo, L., Donisi, V., Dal Maso, F., Avery, S., Sousa, M., Silva, E., Neves, S., Stifter, V., Wallner, M., \& Vives-Cases, C. (2026). \enquote{Sexual harassment definitely involves a hierarchical transgression}: Key informants' discourses on sexual harassment in European universities. \textit{PLOS ONE, 21}(8), Artículo e0355556. \url{https://doi.org/10.1371/journal.pone.0355556}
+
+\noindent\textbf{Institución:} Universidad de Alicante (España), junto con otras cinco universidades europeas.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Realizaron 90 entrevistas a representantes estudiantiles, personal y unidades de igualdad de seis universidades europeas.
+	\item Los entrevistados definieron el acoso sexual con cuatro elementos: transgresión de límites, ausencia de consentimiento, desequilibrio de poder e impacto en el bienestar. También describieron \enquote{zonas grises} de conductas sutiles que suelen normalizarse.
+	\item Aunque predominó la idea de un agresor con más jerarquía, también se mencionó el acoso entre pares.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Sus cuatro elementos se usan como referencia en la guía de anotación. Como también documenta acoso entre pares, la guía no exigirá que el agresor tenga más jerarquía para etiquetar un relato como acoso.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 9}
+\noindent Bull, A., \& Bradley, A. (2026). Who is experiencing faculty/staff-student sexual misconduct in UK higher education? \textit{Journal of Gender-Based Violence}. Publicación anticipada en línea. \url{https://doi.org/10.1332/23986808Y2025D000000120}
+
+\noindent\textbf{Institución:} University of York y University of Portsmouth, Reino Unido.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Analizaron una encuesta a 1768 estudiantes del Reino Unido sobre conductas sexuales inapropiadas del personal universitario.
+	\item Adaptaron el SEQ para no preguntar si la persona rechazó la conducta, porque una relación de poder puede impedir que alguien se niegue.
+	\item Las mujeres y algunos grupos de estudiantes vivieron más incidentes que el resto.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Respalda una regla importante de la guía de anotación: que la persona no se haya negado no significa que haya consentido.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 10}
+\noindent Escobar Mercado, M., Gil, E., \& Calvo López, C. (2022). Análisis de la dinámica, la estructura y el contenido de los mensajes de Twitter: Violencia sexual en \#Cuéntalo. \textit{EMPIRIA. Revista de Metodología de Ciencias Sociales}, (53), 89--110. \url{https://doi.org/10.5944/empiria.53.2022.32614}
+
+\noindent\textbf{Institución:} Universidad de Salamanca, España.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Analizaron los mensajes publicados en Twitter con la etiqueta \#Cuéntalo entre el 26 y el 28 de abril de 2018, tras la sentencia del caso \enquote{La Manada}: 491\,258 intervenciones, de las cuales 52\,411 fueron tuits originales, en su mayoría en español.
+	\item Codificaron a mano una muestra de unos 10\,000 mensajes según contuvieran o no agresiones sexuales, entrenaron con ella un clasificador supervisado basado en la frecuencia de palabras y lo aplicaron al resto del corpus. El 32\,\% de los mensajes describía agresiones, el 56\,\% no y el 12\,\% quedó sin definir.
+	\item Con LDA encontraron que los temas más frecuentes eran el miedo a volver sola a casa y situaciones vividas en la escuela.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es el antecedente en español más cercano a esta tesis, porque separa automáticamente testimonios con y sin agresiones sexuales. Demuestra que la tarea es posible en nuestro idioma. Sin embargo, trabaja con tuits breves y públicos, no informa la precisión de su clasificador y su objetivo es describir un fenómeno social, no construir un modelo validado. Tampoco se ocupa del ámbito universitario.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 11}
+\noindent Imbaquinga Guaña, J. R., \& Lara Anago, N. A. (2025). \textit{Modelo para la detección y prevención de cibergrooming y cibersexting utilizando algoritmos de procesamiento de lenguaje natural y técnicas de clasificación en aprendizaje automático} [Tesis de grado, Universidad de las Fuerzas Armadas ESPE]. Repositorio Institucional ESPE. \url{https://repositorio.espe.edu.ec/handle/21000/61636}
+
+\noindent\textbf{Institución:} Universidad de las Fuerzas Armadas ESPE, Ecuador.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Desarrollaron un modelo para detectar mensajes de cibergrooming y cibersexting dirigidos a niños y adolescentes.
+	\item Representaron los mensajes con all-MiniLM-L6-v2, una versión reducida de BERT, equilibraron las clases con SMOTE y clasificaron con LightGBM. Obtuvieron una precisión de 97,24\,\%, una exhaustividad macro de 97,09\,\% y un F1 macro de 96,16\,\%.
+	\item Integraron el modelo en un prototipo con una API en Flask y una interfaz en React, que asigna niveles de alerta según la probabilidad.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es un antecedente latinoamericano de una carrera de software con una propuesta muy parecida a la de esta tesis: un modelo de lenguaje, un clasificador y un prototipo web. La diferencia está en el fenómeno y en los datos: trata mensajes de acoso hacia menores, no relatos de estudiantes universitarios. Además, como aplica SMOTE, conviene comprobar que el remuestreo se haga solo con los datos de entrenamiento, cuidado que esta tesis incorpora.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 12}
+\noindent Cumba Armijos, P. D. (2018). \textit{Predicción de ataques de cyber bullying mediante técnicas de aprendizaje profundo apoyándose en un corpus de entrenamiento para la clasificación de texto en español} [Tesis de maestría, Universidad Internacional SEK]. Repositorio Digital UISEK. \url{https://repositorio.uisek.edu.ec/handle/123456789/3224}
+
+\noindent\textbf{Institución:} Universidad Internacional SEK, Ecuador.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Construyó un corpus de tuits en español etiquetados como acoso o no acoso, a partir de listas de palabras clave.
+	\item Entrenó una red neuronal convolucional con representaciones de palabras (\textit{word embeddings}) y la validó con validación cruzada.
+	\item Concluyó que el modelo es adecuado para predecir ciberacoso en textos en español.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Muestra que en la región ya se entrenan modelos para detectar acoso en español. Su punto débil es el etiquetado: al usar palabras clave para asignar las clases, el modelo aprende esas mismas palabras. Esta tesis evita ese problema etiquetando cada relato con una guía y comparando el modelo con una línea base léxica.
+
+\subsection{Antecedentes nacionales}
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 13}
+\noindent Gutiérrez de Alarcón, R. D., Cuadra Moreno, M. L., Solano Coello, M. E., Paz Muro, E. S., Tapia Sánchez, C. D., Gutiérrez Alarcón, H. R., \& Valencia Blanco, D. S. (2022). Prevalencia, reacciones y efectos del hostigamiento sexual en dos universidades públicas del Perú. \textit{Revista de Investigación Estadística, 4}(1), 36--46. \url{https://revistas.unitru.edu.pe/index.php/REDIES/article/view/4382}
+
+\noindent\textbf{Institución:} Universidad Nacional de Trujillo y Universidad Nacional de San Antonio Abad del Cusco, Perú.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Con una encuesta aplicada en 2019, compararon la Universidad Nacional de Trujillo (2297 estudiantes) y la UNSAAC (151 estudiantes).
+	\item En la UNSAAC, el 77,5\,\% reportó al menos una manifestación de hostigamiento sexual. Las más frecuentes fueron comentarios o chistes de tono sexual, preguntas sobre la vida sexual y silbidos o exclamaciones. El 17,2\,\% se identificó como víctima de hostigamiento virtual.
+	\item Solo una de las 117 personas afectadas en la UNSAAC denunció el hecho. Los estudiantes fueron señalados como autores en el 72,6\,\% de los casos y los docentes en el 16,8\,\%.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es el antecedente más cercano al ámbito de esta tesis y muestra, con datos de la propia UNSAAC, cuán pocas experiencias llegan a denunciarse. También muestra que buena parte de los casos ocurre entre estudiantes. La muestra es pequeña y el estudio no analiza el lenguaje de los relatos.
+
+% ---------------------------------------------------------------------
+\subsubsection{Antecedente 14}
+\noindent Aguirre Soto, J., Ávila Gonzales, H., \& Bravo Saines, V. (2022). Uso de una herramienta de NLP aplicada a la detección del ciberacoso en Twitter. \textit{Innovación y Software, 3}(2), 81--90. \url{https://n2t.net/ark:/42411/s9/a65}
+
+\noindent\textbf{Institución:} Universidad La Salle, Arequipa, Perú.
+
+\noindent\textbf{Conclusiones:}
+\begin{itemize}
+	\item Propusieron clasificar publicaciones de Twitter como ciberacoso o contenido neutral con un modelo BERT.
+	\item Usaron un etiquetado con cuatro niveles de confianza que luego agruparon en dos clases.
+	\item Presentaron los resultados del entrenamiento principalmente con gráficos.
+\end{itemize}
+
+\noindent\textbf{Comentario:} Es un antecedente peruano de Ingeniería de Sistemas que muestra interés local por aplicar procesamiento del lenguaje al acoso. Se diferencia de esta tesis en que trata ciberacoso en Twitter y no describe un conjunto de prueba independiente ni métricas por clase.
+
+\subsection{Análisis comparativo de los antecedentes}
+Leídos en conjunto, los antecedentes muestran un camino claro. Los primeros trabajos analizaron relatos de acoso para entender el fenómeno, como \citet{karami2020}, que descubrieron temas en experiencias académicas sin clasificar textos. Después vinieron los clasificadores: \citet{wijaya2022} separaron tipos de acoso con Naïve Bayes y \citet{gorissen2023} distinguieron mensajes con y sin una revelación de victimización sexual. Más recientemente, los modelos \textit{transformers} y las técnicas de explicabilidad se volvieron la referencia \citep{mohammadi2024}.
+
+En español el panorama es parecido, aunque con menos trabajos. \citet{escobar2022} clasificaron testimonios de \#Cuéntalo; \citet{cumba2018} y \citet{aguirre2022} detectaron ciberacoso en tuits; y \citet{imbaquinga2025} integraron un modelo en un prototipo web para detectar cibergrooming. Estos estudios confirman que la tarea es posible en nuestro idioma y que tiene sentido llevar el modelo a una herramienta concreta, que es justamente lo que propone esta tesis.
+
+La comparación también deja ver tres límites comunes. Primero, casi todos trabajan con publicaciones de redes sociales o con mensajes, que son breves y públicos; ninguno usa relatos de estudiantes universitarios aportados con consentimiento. Segundo, varios no informan bien cómo evaluaron sus modelos: \citet{escobar2022} y \citet{aguirre2022} no reportan métricas por clase, y \citet{wijaya2022} parecen haber aplicado SMOTE antes de separar la prueba. Tercero, en el Perú la evidencia sobre acoso en universidades viene de encuestas \citep{gutierrez2022}, que miden cuánto ocurre pero no analizan cómo se cuenta. Esta tesis toma lo que funcionó en esos trabajos, como los clasificadores clásicos como punto de partida, BETO para el español y SHAP para explicar, y lo aplica a relatos universitarios con una evaluación que evita esos problemas.
+
+\section{Bases Teóricas}
+
+\subsection{Acoso sexual y hostigamiento sexual}
+En el Perú, la Ley N.\textsuperscript{o}~27942 y su reglamento, aprobado por el Decreto Supremo N.\textsuperscript{o}~014-2019-MIMP, regulan el hostigamiento sexual en las instituciones educativas, incluidas las universidades, y les asignan deberes de prevención, atención y sanción \citep{ley27942, ds0142019}. En esta tesis se usa el término \textit{acoso sexual}, más común en la literatura internacional, como equivalente del hostigamiento sexual que describe la norma.
+
+Para etiquetar los relatos, se considera que uno describe acoso sexual cuando cuenta, de forma explícita o clara por el contexto, conductas de naturaleza sexual no deseadas, presiones o condicionamientos sexuales, o expresiones sexualizadas que afectan la dignidad de la persona. Sexismo, misoginia, violencia sexual y acoso sexual están relacionados, pero no son lo mismo \citep{dutta2025, bull2026}. La guía de anotación toma los cuatro elementos que identificó \citet{rios2026}: transgresión de límites, falta de consentimiento, desequilibrio de poder e impacto en el bienestar.
+
+Que una persona no se haya negado de forma verbal no se interpreta como consentimiento, porque una relación de poder puede impedir esa respuesta \citep{bull2026}. Tampoco se suponen hechos que el relato no cuenta: si la situación es ambigua, se etiqueta como información insuficiente (Anexo B).
+
+\subsection{Relatos y mensajes}
+Un relato cuenta una experiencia y suele incluir cuándo pasó, qué consecuencias tuvo o por qué se vivió de cierta forma. Un mensaje, en cambio, puede ser una broma, una cita o parte de una conversación más larga. Por eso, un modelo entrenado con relatos no necesariamente funcionará con mensajes de chat. \citet{gorissen2023} encontraron que el medio cambia el contenido: las revelaciones en Twitter eran más cortas y daban menos información que las publicadas en blogs.
+
+\subsection{Desarrollo de modelos con CRISP-DM}
+Desarrollar un modelo de aprendizaje automático no se reduce a entrenarlo. CRISP-DM organiza ese proceso en seis etapas: comprensión del problema, comprensión de los datos, preparación de los datos, modelado, evaluación y despliegue \citep{chapman2000}. Las etapas no son rígidas: si la evaluación muestra un problema, se vuelve a una etapa anterior. En esta tesis, las seis etapas se agrupan en las cuatro etapas de trabajo del Capítulo 3, una por cada objetivo específico.
+
+\subsection{Representación de los textos}
+Un algoritmo no puede trabajar directamente con palabras; primero hay que convertir cada relato en un vector de números. La representación TF-IDF da a cada término un peso que crece cuando aparece mucho en un relato y se reduce cuando aparece en casi todos:
+\begin{equation}
+\ecuacion{Ponderación TF-IDF de un término}
+\mathrm{tfidf}(t,d) = \mathrm{tf}(t,d) \cdot \log\frac{N}{\mathrm{df}(t)}
+\label{eq:tfidf}
+\end{equation}
+donde $\mathrm{tf}(t,d)$ es la frecuencia del término $t$ en el relato $d$, $N$ el número de relatos y $\mathrm{df}(t)$ el número de relatos que contienen el término. Además de palabras sueltas se usan n-gramas, es decir, secuencias de dos o más palabras o de caracteres, que capturan expresiones como \enquote{me tocó} y variaciones de escritura. Así, cada relato queda representado por un vector $\mathbf{x} \in \mathbb{R}^{m}$, donde $m$ es el tamaño del vocabulario.
+
+\subsection{Clasificadores supervisados}
+En el aprendizaje supervisado se dispone de $n$ relatos etiquetados $\{(\mathbf{x}_i, y_i)\}_{i=1}^{n}$, con $y_i = 1$ si el relato describe acoso y $y_i = 0$ si no. El objetivo es aprender una función que prediga $y$ para relatos nuevos \citep{hastie2009}. Esta tesis compara tres clasificadores muy usados con textos \citep{salawu2020}.
+
+\subsubsection{Regresión logística}
+La regresión logística combina linealmente los pesos de las palabras y transforma el resultado en una probabilidad mediante la función sigmoide:
+\begin{equation}
+\ecuacion{Regresión logística}
+P(y = 1 \mid \mathbf{x}) = \sigma(\mathbf{w}^{\top}\mathbf{x} + b) = \frac{1}{1 + e^{-(\mathbf{w}^{\top}\mathbf{x} + b)}}
+\label{eq:logistica}
+\end{equation}
+Los pesos $\mathbf{w}$ y el sesgo $b$ se ajustan minimizando la entropía cruzada, a la que se suma una penalización $\lambda \lVert \mathbf{w} \rVert^{2}$ para evitar el sobreajuste:
+\begin{equation}
+\ecuacion{Función de pérdida de la regresión logística}
+\mathcal{L}(\mathbf{w}, b) = -\frac{1}{n}\sum_{i=1}^{n}\big[\,y_i \log \hat{p}_i + (1 - y_i)\log(1 - \hat{p}_i)\,\big] + \lambda \lVert \mathbf{w} \rVert^{2}
+\label{eq:logloss}
+\end{equation}
+Su ventaja es que cada peso indica cuánto empuja una palabra hacia la clase de acoso, lo que facilita interpretar el modelo.
+
+\subsubsection{Máquina de vectores de soporte lineal}
+La SVM busca el hiperplano que separa las dos clases con el mayor margen posible \citep{cortes1995}. Con etiquetas $y_i \in \{-1, +1\}$, el entrenamiento resuelve:
+\begin{equation}
+\ecuacion{Problema de optimización de la SVM lineal}
+\min_{\mathbf{w}, b}\ \frac{1}{2}\lVert \mathbf{w} \rVert^{2} + C \sum_{i=1}^{n} \max\big(0,\ 1 - y_i(\mathbf{w}^{\top}\mathbf{x}_i + b)\big)
+\label{eq:svm}
+\end{equation}
+El primer término amplía el margen y el segundo, llamado pérdida \textit{hinge}, penaliza los relatos que quedan del lado equivocado o demasiado cerca de la frontera. El parámetro $C$ regula el equilibrio entre ambos. Las SVM lineales funcionan bien con vectores de muchas dimensiones y pocos ejemplos, como ocurre con TF-IDF.
+
+\subsubsection{Naïve Bayes multinomial}
+Naïve Bayes aplica el teorema de Bayes suponiendo que las palabras son independientes entre sí dentro de cada clase \citep{mccallum1998}. La clase elegida es la de mayor probabilidad:
+\begin{equation}
+\ecuacion{Clasificación con Naïve Bayes multinomial}
+\hat{c} = \arg\max_{c \in \{0,1\}}\ \log P(c) + \sum_{t \in d} \mathrm{tf}(t,d)\,\log P(t \mid c), \qquad P(t \mid c) = \frac{N_{tc} + \alpha}{N_{c} + \alpha\,|V|}
+\label{eq:nb}
+\end{equation}
+donde $N_{tc}$ es el número de veces que aparece el término $t$ en los relatos de la clase $c$, $N_c$ el total de términos de esa clase, $|V|$ el tamaño del vocabulario y $\alpha$ el suavizado que evita probabilidades nulas. Aunque su supuesto de independencia es poco realista, suele dar buenos resultados con pocos datos \citep{wijaya2022}.
+
+\subsection{Modelos basados en \textit{transformers}}
+Los modelos anteriores tratan cada palabra por separado. Un \textit{transformer}, en cambio, representa cada palabra según las que la rodean, gracias al mecanismo de atención \citep{vaswani2017}:
+\begin{equation}
+\ecuacion{Mecanismo de atención}
+\mathrm{Atención}(Q, K, V) = \mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right)V
+\label{eq:atencion}
+\end{equation}
+donde $Q$, $K$ y $V$ son proyecciones de las palabras del relato y $d_k$ su dimensión. Cada palabra calcula cuánta atención debe prestar a las demás, de modo que \enquote{me tocó} se representa distinto en \enquote{me tocó exponer} y en \enquote{me tocó la pierna}.
+
+BERT apila varias capas de atención y se preentrena con grandes volúmenes de texto \citep{devlin2019}. Para clasificar, se toma la representación del token especial \texttt{[CLS]}, $\mathbf{h}_{\mathrm{CLS}}$, y se le añade una capa de salida:
+\begin{equation}
+\ecuacion{Capa de clasificación sobre BERT}
+\hat{\mathbf{p}} = \mathrm{softmax}(W\,\mathbf{h}_{\mathrm{CLS}} + \mathbf{b})
+\label{eq:cls}
+\end{equation}
+Todo el modelo se ajusta luego con los relatos etiquetados minimizando la entropía cruzada, proceso llamado \textit{fine-tuning}. BETO es una versión de BERT preentrenada solo con textos en español, que superó a los modelos multilingües en la mayoría de tareas evaluadas \citep{canete2020}. En español también existen recursos para tareas cercanas, como el conjunto MeTwo de expresiones sexistas en Twitter \citep{rodriguez2020} y la tarea compartida EXIST 2021 \citep{rodriguez2021exist}.
+
+\subsection{Líneas base}
+Una línea base es un modelo sencillo que sirve de punto de comparación. La línea base mayoritaria asigna a todos los relatos la clase más frecuente y marca el mínimo que cualquier modelo debería superar. La línea base léxica usa una lista $\mathcal{L}$ de términos sexuales definida antes del entrenamiento:
+\begin{equation}
+\ecuacion{Regla de la línea base léxica}
+\hat{y}_{\text{léx}}(d) =
+\begin{cases}
+1 & \text{si existe } t \in \mathcal{L} \text{ tal que } t \in d\\
+0 & \text{en otro caso}
+\end{cases}
+\label{eq:lexica}
+\end{equation}
+Esta regla explica por qué se espera que el modelo la supere, que es lo que plantea la hipótesis. Si un relato describe acoso sin usar ningún término de la lista, por ejemplo \enquote{el profesor me dijo que si salía con él aprobaba}, la regla siempre falla, mientras que un modelo entrenado puede aprender la relación entre \enquote{profesor}, \enquote{salir} y \enquote{aprobar}. Del mismo modo, la regla marca como acoso cualquier relato que mencione un término sexual aunque no describa acoso, y el modelo puede aprender a distinguir esos casos por el contexto.
+
+\subsection{Desbalance de clases y fuga de información}
+Hay desbalance de clases cuando una clase tiene muchos más ejemplos que la otra. Un modelo puede acertar casi siempre prediciendo la clase mayoritaria y aun así no detectar ningún caso de acoso. Hay dos formas de corregirlo. La primera es ponderar las clases, dando más peso a los errores en la clase minoritaria:
+\begin{equation}
+\ecuacion{Peso de cada clase}
+w_c = \frac{n}{K \cdot n_c}
+\label{eq:pesos}
+\end{equation}
+donde $n$ es el número de relatos de entrenamiento, $K = 2$ el número de clases y $n_c$ los relatos de la clase $c$. La segunda es SMOTE, que crea ejemplos sintéticos de la clase minoritaria interpolando entre un ejemplo $\mathbf{x}_i$ y uno de sus vecinos más cercanos $\mathbf{x}_{nn}$ \citep{chawla2002}:
+\begin{equation}
+\ecuacion{Generación de ejemplos con SMOTE}
+\mathbf{x}_{\text{nuevo}} = \mathbf{x}_i + \lambda\,(\mathbf{x}_{nn} - \mathbf{x}_i), \qquad \lambda \sim U(0,1)
+\label{eq:smote}
+\end{equation}
+Los ejemplos sintéticos no son relatos reales, así que nunca deben llegar al conjunto de prueba.
+
+La fuga de información ocurre cuando datos que deberían reservarse para la evaluación terminan influyendo en el entrenamiento, y hace que el modelo parezca mejor de lo que es. \citet{kapoor2023} la encontraron en 294 estudios de 17 disciplinas. Se evita separando primero a los participantes y ajustando la vectorización y el remuestreo solo con los datos de entrenamiento de cada pliegue. En la validación cruzada agrupada, los relatos se reparten en $k$ pliegues de modo que todos los de un mismo participante queden en el mismo pliegue. Documentar el corpus con una hoja de datos \citep{gebru2021} y el modelo con una ficha técnica \citep{mitchell2019} permite que otros revisen cómo se obtuvieron los resultados.
+
+\subsection{Métricas de evaluación}
+La precisión indica qué proporción de los relatos que el modelo marcó como acoso realmente lo eran; la exhaustividad, qué proporción de los relatos con acoso logró encontrar; y F1 combina ambas:
+\begin{equation}
+\ecuacion{Precisión, exhaustividad y F1}
+P = \frac{\mathrm{VP}}{\mathrm{VP} + \mathrm{FP}} \qquad
+R = \frac{\mathrm{VP}}{\mathrm{VP} + \mathrm{FN}} \qquad
+F_1 = 2 \cdot \frac{P \cdot R}{P + R}
+\label{eq:metricas}
+\end{equation}
+donde VP son los verdaderos positivos, FP los falsos positivos y FN los falsos negativos, que se obtienen de la matriz de confusión. El macro F1 promedia el F1 de las dos clases con el mismo peso, así que no se infla cuando una clase es mucho más numerosa:
+\begin{equation}
+\ecuacion{Macro F1 para dos clases}
+\mathrm{Macro}\,F_1 = \frac{F_1^{(0)} + F_1^{(1)}}{2}
+\label{eq:macrof1}
+\end{equation}
+
+Para medir cuánto coinciden los anotadores se usa el coeficiente kappa de Cohen, donde $p_o$ es el acuerdo observado y $p_e$ el acuerdo esperado por azar. Un valor de 0,61 o más se considera un acuerdo sustancial \citep{landis1977}:
+\begin{equation}
+\ecuacion{Coeficiente kappa de Cohen}
+\kappa = \frac{p_o - p_e}{1 - p_e}
+\label{eq:kappa}
+\end{equation}
+
+\subsection{Pruebas estadísticas para comparar modelos}
+Como todos los modelos se prueban con los mismos relatos, sus resultados están pareados. La prueba de McNemar compara dos modelos fijándose solo en los relatos en que discrepan \citep{mcnemar1947}. Si $n_{01}$ es el número de relatos que el modelo A clasifica mal y el B bien, y $n_{10}$ el caso contrario, el estadístico es:
+\begin{equation}
+\ecuacion{Estadístico de McNemar}
+\chi^{2} = \frac{(|n_{01} - n_{10}| - 1)^{2}}{n_{01} + n_{10}}
+\label{eq:mcnemar}
+\end{equation}
+que sigue una distribución $\chi^{2}$ con un grado de libertad. \citet{dietterich1998} la recomienda para comparar clasificadores entrenados una sola vez, porque controla bien el error de tipo I.
+
+Para estimar la incertidumbre de una métrica se usa el remuestreo \textit{bootstrap} \citep{efron1993}: se generan $B$ muestras con reemplazo de los relatos de prueba, se calcula la métrica en cada una y el intervalo de confianza al 95\,\% queda definido por los percentiles 2,5 y 97,5 de esos $B$ valores. En esta tesis el remuestreo se hace por participante, para respetar que los relatos de una misma persona no son independientes. Cuando se hacen varias comparaciones a la vez, el método de \citet{holm1979} ordena los $m$ valores $p$ de menor a mayor y rechaza la hipótesis $k$-ésima solo si $p_{(k)} \leq \alpha/(m - k + 1)$.
+
+\subsection{Explicabilidad}
+SHAP explica una predicción repartiéndola entre las características del texto. El valor de Shapley de la característica $i$ es su aporte promedio a la predicción, considerando todas las combinaciones posibles de las demás \citep{lundberg2017}:
+\begin{equation}
+\ecuacion{Valor de Shapley de una característica}
+\phi_i = \sum_{S \subseteq F \setminus \{i\}} \frac{|S|!\,(|F| - |S| - 1)!}{|F|!}\,\big[f(S \cup \{i\}) - f(S)\big]
+\label{eq:shap}
+\end{equation}
+donde $F$ es el conjunto de características y $f(S)$ la predicción usando solo las de $S$. La suma de todos los $\phi_i$ más el valor base da exactamente la predicción del modelo. Aplicado a textos, permite ver qué palabras empujaron al modelo a clasificar un relato como acoso y cuáles lo alejaron de esa decisión \citep{mohammadi2024}. Estas explicaciones ayudan a quien revisa el caso a entender la predicción, pero no prueban que los hechos hayan ocurrido.
+
+\subsection{Arquitectura cliente-servidor para el prototipo}
+El prototipo sigue una arquitectura cliente-servidor. El servidor carga el modelo y lo expone mediante una interfaz de programación de aplicaciones (API) de estilo REST, en la que cada operación es una petición independiente que no guarda estado entre llamadas \citep{fielding2000}. El cliente es una aplicación web que envía el relato, recibe la predicción y la muestra. Separar ambas partes permite cambiar el modelo sin tocar la interfaz y, como ambas funcionan en el mismo equipo, ningún relato sale de él.
+
+\section{Tecnologías y Entornos de Desarrollo}
+Las herramientas se eligieron por tres razones técnicas: que permitan ejecutar todo en un equipo local, que incluyan mecanismos para evitar la fuga de información y que su rendimiento sea suficiente para un corpus de cientos de relatos. La Tabla~\ref{tab:tecnologias} resume la elección.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Tecnologías seleccionadas y criterio técnico de elección}
+\label{tab:tecnologias}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}L{3.2cm} L{3.4cm} L{8.8cm}@{}}
+\toprule
+\textbf{Tecnología} & \textbf{Uso en la tesis} & \textbf{Criterio técnico} \\
+\midrule
+Python & Lenguaje base & Concentra las bibliotecas de aprendizaje automático y procesamiento del lenguaje, y permite reproducir todo el proceso con un archivo de dependencias \\
+scikit-learn & TF-IDF, clasificadores clásicos y validación cruzada & Sus \textit{pipelines} encadenan vectorización, remuestreo y modelo, y se ajustan solo con los datos de entrenamiento de cada pliegue \citep{pedregosa2011} \\
+PyTorch y Transformers & Ajuste fino de BETO & Dan acceso a modelos preentrenados en español y permiten entrenar en GPU local \citep{paszke2019, wolf2020} \\
+SHAP & Explicación de predicciones & Implementa los valores de Shapley para modelos lineales y \textit{transformers} \citep{lundberg2017} \\
+FastAPI & Servidor del prototipo & Expone el modelo como API REST con validación automática de los datos de entrada y atención asíncrona de peticiones, con baja latencia \\
+React & Interfaz del prototipo & Construye la interfaz con componentes reutilizables que se actualizan sin recargar la página \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Bibliotecas de aprendizaje automático}
+scikit-learn reúne en una misma interfaz la vectorización, los clasificadores y las herramientas de validación \citep{pedregosa2011}. Su característica más importante para esta tesis es el \textit{pipeline}: un objeto que encadena todos los pasos y que, dentro de la validación cruzada, se ajusta de nuevo en cada pliegue usando solo sus datos de entrenamiento. Así se evita, por diseño, que el vocabulario de TF-IDF o los ejemplos de SMOTE se construyan con relatos de validación. Para BETO se usa PyTorch, que calcula los gradientes de forma automática y aprovecha la GPU \citep{paszke2019}, junto con la biblioteca Transformers, que carga el modelo preentrenado y su tokenizador con una interfaz común \citep{wolf2020}.
+
+\subsection{Tecnologías del prototipo}
+El servidor se implementa con FastAPI, un marco de Python para construir APIs REST. Valida automáticamente que cada petición tenga el formato esperado, atiende peticiones de forma asíncrona y genera la documentación de la API. Como está escrito en Python, carga el mismo modelo entrenado sin necesidad de convertirlo. La interfaz se construye con React, una biblioteca de JavaScript que organiza la página en componentes, como el campo del relato, el resultado y la lista de palabras influyentes, que se actualizan cuando llega una respuesta del servidor.

@@ -1,0 +1,52 @@
+% =====================================================================
+%  PLAN DE TESIS - Escuela Profesional de Ingeniería Informática y de Sistemas
+%  Universidad Nacional de San Antonio Abad del Cusco
+%  Compilar con: pdfLaTeX -> Biber -> pdfLaTeX -> pdfLaTeX
+% =====================================================================
+\documentclass[a4paper,12pt]{report}
+\input{config/preambulo}
+
+% ------------------------- Datos del plan ----------------------------
+\newcommand{\titulo}{Desarrollo de un modelo de aprendizaje automático para la detección de acoso sexual en relatos de estudiantes de la UNSAAC}
+\newcommand{\tesista}{Pamela Diaz Misme}
+\newcommand{\codigo}{}                       % código de matrícula (completar)
+\newcommand{\orcidTesista}{0009-0006-8710-4858}
+\newcommand{\asesor}{Dr. Rony Villafuerte Serna}
+\newcommand{\orcidAsesor}{0000-0003-4607-522X}
+\newcommand{\anio}{2026}
+
+\hypersetup{pdftitle={\titulo}, pdfauthor={\tesista}}
+
+\begin{document}
+
+% ------------------------- Páginas preliminares ----------------------
+\input{secciones/01_caratula}
+
+\pagenumbering{roman}
+\setcounter{page}{2}
+\doublespacing
+\input{secciones/02_resumen}
+\input{secciones/03_abstract}
+\input{secciones/04_indices}
+\input{secciones/05_abreviaturas}
+\input{secciones/06_glosario}
+\input{secciones/07_introduccion}
+
+% ------------------------- Cuerpo ------------------------------------
+\clearpage
+\pagenumbering{arabic}
+\input{capitulos/cap1_aspectos_generales}
+\input{capitulos/cap2_marco_teorico}
+\input{capitulos/cap3_desarrollo_propuesta}
+
+% ------------------------- Páginas finales ---------------------------
+\input{secciones/08_conclusiones}
+\input{secciones/09_recomendaciones}
+\input{secciones/10_bibliografia}
+
+\singlespacing
+\input{anexos/anexo_a_matriz_consistencia}
+\input{anexos/anexo_b_guia_anotacion}
+\input{anexos/anexo_c_instrumento_recoleccion}
+
+\end{document}

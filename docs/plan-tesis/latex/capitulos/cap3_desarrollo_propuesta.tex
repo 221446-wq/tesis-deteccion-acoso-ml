@@ -1,0 +1,197 @@
+% =====================================================================
+%  CAPÍTULO 3: DESARROLLO DE LA PROPUESTA
+% =====================================================================
+\chapter{Desarrollo de la Propuesta}
+
+\section{Metodología de Desarrollo}
+El modelo se desarrollará siguiendo CRISP-DM \citep{chapman2000}. Como se trabaja con relatos sensibles, a sus etapas se les añaden la autorización ética, la anotación y la documentación. Para que el trabajo responda directamente a los objetivos, las seis etapas de CRISP-DM se agrupan en cuatro etapas de desarrollo, una por cada objetivo específico (Tabla~\ref{tab:crisp}).
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Relación entre objetivos específicos, etapas de desarrollo y CRISP-DM}
+\label{tab:crisp}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{1.6cm} L{4.2cm} L{3.9cm} L{5.7cm}@{}}
+\toprule
+\textbf{Objetivo} & \textbf{Etapa de desarrollo} & \textbf{Etapas de CRISP-DM} & \textbf{Producto} \\
+\midrule
+OE1 & Etapa 1: Construcción del corpus & Comprensión del problema, comprensión y preparación de los datos & Corpus anonimizado y anotado, con su kappa y su hoja de datos \\
+OE2 & Etapa 2: Entrenamiento y selección del modelo & Preparación de los datos y modelado & Modelo seleccionado y registro de experimentos \\
+OE3 & Etapa 3: Validación del modelo & Evaluación & Métricas en la prueba, contraste de hipótesis y análisis de errores \\
+OE4 & Etapa 4: Implementación del prototipo & Despliegue & Prototipo verificado y ficha técnica del modelo \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Adaptado de \citet{chapman2000}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Arquitectura de la Solución}
+La solución tiene dos flujos, que se muestran en la Figura~\ref{fig:arquitectura}. En el flujo de entrenamiento, el corpus anotado se convierte en un modelo validado. En el flujo de inferencia, el prototipo usa ese modelo para analizar un relato nuevo.
+
+\begin{figure}[H]
+\caption{Arquitectura de la solución}
+\label{fig:arquitectura}
+\centering
+\begin{tikzpicture}[
+	node distance=0.5cm and 0.45cm,
+	caja/.style={draw, rounded corners=3pt, fill=diagAzul!10, align=center,
+	text width=2.55cm, minimum height=1.25cm, font=\footnotesize},
+	caja2/.style={caja, fill=diagVerde!15},
+	flecha/.style={-{Stealth[length=2.2mm]}, thick},
+	etiqueta/.style={font=\footnotesize\bfseries, anchor=west}
+	]
+	\node[caja] (c1) {Corpus anonimizado y anotado};
+	\node[caja, right=of c1] (c2) {Preprocesamiento y partición por participante};
+	\node[caja, right=of c2] (c3) {Representación\\TF-IDF / BETO};
+	\node[caja, right=of c3] (c4) {Entrenamiento, selección y validación};
+	\node[caja, below=0.9cm of c4, fill=diagRojo!12] (m) {\textbf{Modelo validado}};
+	\node[caja2, below=2.8cm of c1] (i1) {Relato nuevo};
+	\node[caja2, right=of i1] (i2) {Revisión de datos personales};
+	\node[caja2, right=of i2] (i3) {Predicción y probabilidad};
+	\node[caja2, right=of i3] (i4) {Explicación SHAP y revisión humana};
+	\draw[flecha] (c1) -- (c2);
+	\draw[flecha] (c2) -- (c3);
+	\draw[flecha] (c3) -- (c4);
+	\draw[flecha] (c4) -- (m);
+	\draw[flecha] (i1) -- (i2);
+	\draw[flecha] (i2) -- (i3);
+	\draw[flecha] (i3) -- (i4);
+	\draw[flecha, dashed] (m) -| (i3);
+	\node[etiqueta] at ([yshift=0.35cm]c1.north west) {Flujo de entrenamiento};
+	\node[etiqueta] at ([yshift=0.35cm]i1.north west) {Flujo de inferencia (prototipo)};
+\end{tikzpicture}
+
+\raggedright\textit{Nota.} Elaboración propia.
+\end{figure}
+
+\section{Etapas del Desarrollo}
+La Figura~\ref{fig:fases} resume las cuatro etapas. Cada una corresponde a un objetivo específico y entrega un producto que la siguiente necesita.
+
+\begin{figure}[H]
+\caption{Etapas del desarrollo del modelo}
+\label{fig:fases}
+\centering
+\begin{tikzpicture}[
+	node distance=0.6cm,
+	fase/.style={draw, rounded corners=3pt, fill=diagAzul!10, align=center,
+	text width=3.2cm, minimum height=1.9cm, font=\small},
+	flecha/.style={-{Stealth[length=2.5mm]}, thick}
+	]
+	\node[fase] (e1) {\textbf{Etapa 1 (OE1)}\\Construcción del corpus\\[2pt]\footnotesize Autorización, piloto, recolección, anonimización y anotación};
+	\node[fase, right=of e1] (e2) {\textbf{Etapa 2 (OE2)}\\Entrenamiento y selección\\[2pt]\footnotesize Partición, 13 configuraciones y validación cruzada};
+	\node[fase, right=of e2] (e3) {\textbf{Etapa 3 (OE3)}\\Validación\\[2pt]\footnotesize Prueba única, hipótesis y análisis de errores};
+	\node[fase, right=of e3, fill=diagVerde!15] (e4) {\textbf{Etapa 4 (OE4)}\\Prototipo\\[2pt]\footnotesize Servidor, interfaz, pruebas y documentación};
+	\draw[flecha] (e1) -- (e2);
+	\draw[flecha] (e2) -- (e3);
+	\draw[flecha] (e3) -- (e4);
+\end{tikzpicture}
+
+\raggedright\textit{Nota.} Elaboración propia.
+\end{figure}
+
+\subsection{Etapa 1: Construcción del corpus (OE1)}
+Primero se define para qué se usará el modelo y quién custodiará los datos, y se obtiene la aprobación del comité de ética y de la universidad. Los especialistas revisan la guía de anotación antes de empezar.
+
+Luego se aplica el formulario a unos 40 estudiantes para comprobar que las preguntas se entienden y que la anonimización y la anotación funcionan. Con los ajustes necesarios se abre la convocatoria principal, siempre voluntaria y sin acceder a conversaciones privadas ni a expedientes.
+
+A cada relato recibido se le quitan nombres, teléfonos, correos, códigos y cualquier detalle que permita reconocer a alguien, y se reemplazan por marcadores como \texttt{[PERSONA]} o \texttt{[CURSO]}. Después, dos anotadores etiquetan cada relato por separado y se calcula su acuerdo con el kappa de Cohen (Ecuación~\ref{eq:kappa}); un especialista resuelve los casos en que no coinciden. La etapa termina con el corpus anotado y su hoja de datos \citep{gebru2021}.
+
+\subsection{Etapa 2: Entrenamiento y selección del modelo (OE2)}
+Se reserva alrededor del 20\,\% de los participantes para la prueba final y el 80\,\% restante se usa para el desarrollo, manteniendo la proporción de relatos con y sin acoso. Antes de entrenar cualquier modelo se define la lista de palabras de la línea base léxica (Ecuación~\ref{eq:lexica}).
+
+Con los datos de desarrollo se entrenan las 13 configuraciones del diseño. Los relatos se representan con TF-IDF (Ecuación~\ref{eq:tfidf}) para la regresión logística, la SVM lineal y Naïve Bayes (Ecuaciones~\ref{eq:logistica} a \ref{eq:nb}), y con la representación contextual de BETO (Ecuaciones~\ref{eq:atencion} y \ref{eq:cls}). Cada modelo se prueba sin tratamiento del desbalance, con ponderación de clases (Ecuación~\ref{eq:pesos}) y, en el caso de TF-IDF, con SMOTE (Ecuación~\ref{eq:smote}). Los hiperparámetros se ajustan con validación cruzada agrupada de cinco pliegues. Se elige el modelo con mayor macro F1; si dos empatan, se prefiere el de mayor F1 en la clase positiva y, después, el más sencillo. El Algoritmo~\ref{alg:entrenamiento} resume el procedimiento.
+
+\begin{algorithm}[H]
+\caption{Entrenamiento, selección y validación del modelo}
+\label{alg:entrenamiento}
+\singlespacing
+\begin{algorithmic}[1]
+	\Require Corpus anotado $D$ con etiqueta e identificador de participante; configuraciones $\mathcal{C}$
+	\Ensure Modelo seleccionado $m^{*}$ y sus métricas en la prueba
+	\State Agrupar relatos duplicados o casi idénticos
+	\State Dividir $D$ por participante en $D_{dev}$ (80\,\%) y $D_{test}$ (20\,\%) \Comment{$D_{test}$ no se toca}
+	\State Crear 5 pliegues por participante dentro de $D_{dev}$
+	\ForAll{$c \in \mathcal{C}$ y las dos líneas base}
+		\ForAll{pliegue $k$}
+			\State Ajustar la representación y el remuestreo \textbf{solo} con el entrenamiento del pliegue $k$
+			\State Entrenar $c$ y registrar macro F1 y F1 positivo en la validación del pliegue $k$
+		\EndFor
+		\State Calcular el promedio y la dispersión de las métricas de $c$
+	\EndFor
+	\State $m^{*} \gets$ configuración con mayor macro F1
+	\State Reentrenar $m^{*}$ con todo $D_{dev}$
+	\State Evaluar una sola vez en $D_{test}$: $P$, $R$, $F_1$, macro $F_1$ y matriz de confusión
+	\State \Return $m^{*}$ y sus métricas con intervalos del 95\,\%
+\end{algorithmic}
+\end{algorithm}
+
+\subsection{Etapa 3: Validación del modelo (OE3)}
+El modelo elegido y las líneas base se prueban una sola vez con los relatos reservados. Se calculan la precisión, la exhaustividad, el F1 y el macro F1 (Ecuaciones~\ref{eq:metricas} y \ref{eq:macrof1}), con sus intervalos de confianza por \textit{bootstrap}, y se contrastan las hipótesis con la prueba de McNemar (Ecuación~\ref{eq:mcnemar}) según los criterios de la Tabla~\ref{tab:contraste}. Después se revisan uno por uno los relatos en los que el modelo se equivocó, para entender por qué: negaciones, citas, insinuaciones, falta de contexto, expresiones locales o ironía.
+
+\subsection{Etapa 4: Implementación del prototipo (OE4)}
+Se implementa el prototipo descrito en la siguiente sección: el servidor con FastAPI que carga el modelo validado y calcula las explicaciones con SHAP (Ecuación~\ref{eq:shap}), y la interfaz en React. Luego se verifica con relatos de ejemplo que el prototipo dé las mismas predicciones que el modelo y que cumpla cada requisito funcional. El modelo se documenta con una ficha técnica \citep{mitchell2019} y, por último, se vuelve a ejecutar todo el proceso desde cero para comprobar que se obtienen las mismas métricas.
+
+\section{Prototipo de Apoyo a la Revisión}
+El prototipo será una aplicación web que funciona en un equipo local. Tendrá un servicio en Python con FastAPI, que carga el modelo validado, y una interfaz en React para quien revisa los relatos. El usuario pega un relato, el sistema le avisa si detecta posibles datos personales y luego muestra si el relato describe acoso, con qué probabilidad y qué palabras influyeron más en esa decisión según SHAP \citep{lundberg2017}. Los relatos analizados no se guardan ni se envían a ningún servicio externo. Las Tablas~\ref{tab:rf} y \ref{tab:rnf} listan sus requisitos.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Requisitos funcionales del prototipo}
+\label{tab:rf}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{1.5cm} L{13.9cm}@{}}
+\toprule
+\textbf{Código} & \textbf{Requisito} \\
+\midrule
+RF01 & Recibir un relato en español a través de un campo de texto. \\
+RF02 & Avisar si el relato contiene posibles datos personales, como nombres, correos, teléfonos o códigos. \\
+RF03 & Clasificar el relato como \textit{con acoso sexual} o \textit{sin acoso sexual} con el modelo validado. \\
+RF04 & Mostrar la probabilidad de que el relato describa acoso sexual. \\
+RF05 & Mostrar las palabras que más aumentan y disminuyen esa probabilidad. \\
+RF06 & Mostrar siempre un aviso de que el resultado es un apoyo a la revisión y no una decisión. \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Requisitos no funcionales del prototipo}
+\label{tab:rnf}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{1.5cm} L{13.9cm}@{}}
+\toprule
+\textbf{Código} & \textbf{Requisito} \\
+\midrule
+RNF01 & Privacidad: procesar los relatos en el equipo local, sin guardarlos ni enviarlos fuera. \\
+RNF02 & Fidelidad: dar las mismas predicciones que el modelo validado. \\
+RNF03 & Rendimiento: responder lo bastante rápido para usarse en una revisión interactiva en una computadora común. \\
+RNF04 & Mantenibilidad: código versionado, con las dependencias y la versión del modelo registradas. \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Resultados Esperados}
+Al terminar la investigación se espera contar con:
+\begin{itemize}
+	\item Una guía de anotación revisada por especialistas y un informe del acuerdo entre anotadores.
+	\item Un corpus anonimizado de relatos, de acceso restringido, con su hoja de datos.
+	\item Un modelo de aprendizaje automático que detecte acoso sexual mejor que las líneas base, con su ficha técnica y el análisis de sus errores.
+	\item El código del proceso completo, versionado y acompañado de datos de ejemplo.
+	\item Un prototipo funcional que apoye a las oficinas de orientación y atención de la universidad en la revisión de relatos, siempre bajo el criterio de su personal y dentro de los procedimientos que establece la normativa \citep{ds0142019}.
+\end{itemize}

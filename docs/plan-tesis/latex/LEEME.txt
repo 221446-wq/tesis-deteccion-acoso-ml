@@ -1,0 +1,38 @@
+PLAN DE TESIS - Pamela Diaz Misme
+"Desarrollo de un modelo de aprendizaje automático para la detección de acoso sexual en relatos de estudiantes de la UNSAAC"
+
+ESTRUCTURA DEL PROYECTO
+  main.tex                         Archivo principal (datos del plan: título, autora, asesor, código)
+  config/preambulo.tex             Paquetes, formato APA 7 y colores del título
+  secciones/01_caratula.tex        Carátula
+  secciones/02_resumen.tex         Resumen
+  secciones/03_abstract.tex        Abstract
+  secciones/04_indices.tex         Índices: general, tablas, figuras, algoritmos, ecuaciones y anexos
+  secciones/05_abreviaturas.tex    Listado de abreviaturas
+  secciones/06_glosario.tex        Glosario de términos
+  secciones/07_introduccion.tex    Introducción (con problema, objetivos e hipótesis)
+  capitulos/cap1_aspectos_generales.tex   1. Aspectos Generales
+  capitulos/cap2_marco_teorico.tex        2. Marco Teórico
+  capitulos/cap3_desarrollo_propuesta.tex 3. Desarrollo de la Propuesta
+  secciones/08_conclusiones.tex    Conclusiones
+  secciones/09_recomendaciones.tex Recomendaciones
+  secciones/10_bibliografia.tex    Bibliografía (APA 7)
+  anexos/anexo_a_matriz_consistencia.tex
+  anexos/anexo_b_guia_anotacion.tex
+  anexos/anexo_c_instrumento_recoleccion.tex
+  bibliografia/referencias.bib     Referencias bibliográficas
+  imagenes/logo_unsaac.png         Escudo de la universidad
+
+COLORES DEL TÍTULO
+  \proc{...}  azul      -> proceso
+  \tec{...}   amarillo  -> tecnología
+  \ctx{...}   rojo      -> contexto
+
+CÓMO COMPILAR
+  La bibliografía usa biblatex-apa, por eso se compila con Biber (no con BibTeX).
+  En Overleaf funciona directamente. En local:
+    pdflatex main -> biber main -> pdflatex main -> pdflatex main
+  o simplemente: latexmk -pdf main.tex
+
+PENDIENTE
+  Completar el código de matrícula en main.tex: \newcommand{\codigo}{}

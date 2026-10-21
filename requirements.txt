@@ -1,0 +1,12 @@
+# Entorno de pruebas (Tabla "Entorno de pruebas" del plan de tesis)
+# Python 3.11
+scikit-learn==1.5.*
+imbalanced-learn==0.12.*
+pandas==2.2.*
+numpy==1.26.*
+scipy==1.13.*
+torch==2.4.*
+transformers==4.44.*
+shap==0.46.*
+fastapi==0.115.*
+uvicorn==0.30.*

@@ -1,0 +1,384 @@
+% =====================================================================
+%  CAPÍTULO 1: ASPECTOS GENERALES
+% =====================================================================
+\chapter{Aspectos Generales}
+
+\section{Planteamiento del Problema}
+
+\subsection{Descripción del problema}
+El acoso sexual en la universidad puede tomar muchas formas: comentarios, miradas, mensajes, insinuaciones, contacto físico o presiones a cambio de una nota. Algunas de estas conductas son evidentes; otras se mueven en zonas grises que la propia comunidad universitaria tiende a normalizar \citep{rios2026}. Lo que tienen en común es que rara vez se denuncian. En la revisión de \citet{bondestam2020}, el subregistro aparece como una constante en universidades de distintos países, ligado a las jerarquías y a la cultura del silencio.
+
+En la UNSAAC, una encuesta aplicada en 2019 a 151 estudiantes encontró que el 77,5\,\% había experimentado al menos una manifestación de hostigamiento sexual, y que solo una de las 117 personas afectadas lo denunció \citep{gutierrez2022}. La muestra no es representativa, pero la diferencia entre lo que ocurre y lo que llega a las instancias formales es demasiado grande para pasarla por alto. Esto ocurre pese a que la Ley N.\textsuperscript{o}~27942 y su reglamento exigen a las universidades prevenir, investigar y sancionar el hostigamiento sexual \citep{ley27942, ds0142019}.
+
+Cuando estas experiencias se cuentan, suele ser por escrito: un testimonio, un mensaje a un tutor, un formulario de orientación. Reconocer en esos textos una situación de acoso requiere una lectura atenta. Muchas veces el relato no usa palabras sexuales explícitas, y otras veces las usa sin que exista acoso. Revisar manualmente un volumen grande de relatos toma tiempo y depende del criterio de cada lector.
+
+El aprendizaje automático permite construir modelos que aprenden a clasificar textos a partir de ejemplos. Ya existen modelos de este tipo en inglés y en español, pero se desarrollaron con publicaciones de redes sociales o mensajes, y muchos para fenómenos como el sexismo o el ciberacoso, que no son lo mismo que el acoso sexual \citep{salawu2020, dutta2025, escobar2022, imbaquinga2025, cumba2018}. Además, algunos de esos estudios se evaluaron con prácticas que pueden sobrestimar el rendimiento \citep{wijaya2022, kapoor2023}. No se cuenta hoy con un modelo entrenado y validado con relatos de estudiantes universitarios, y menos aún de la UNSAAC.
+
+\subsection{Identificación del problema}
+La Tabla~\ref{tab:arbol} resume las causas y los efectos del problema.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Árbol de problemas}
+\label{tab:arbol}
+\singlespacing
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}L{3cm} L{12.4cm}@{}}
+\toprule
+\textbf{Nivel} & \textbf{Descripción} \\
+\midrule
+Efectos &
+\textbullet\ Se usan cifras obtenidas con otros tipos de texto y en otros contextos como si fueran válidas para la UNSAAC.\par
+\textbullet\ No se sabe en qué casos fallaría un modelo ante expresiones locales, ironía o falta de contexto.\par
+\textbullet\ No existe una herramienta que apoye la revisión de relatos en la universidad. \\
+\midrule
+Problema central & No existe un modelo de aprendizaje automático desarrollado y validado para detectar acoso sexual en relatos de estudiantes de la UNSAAC. \\
+\midrule
+Causas &
+\textbullet\ No hay un corpus local de relatos anonimizados y etiquetados.\par
+\textbullet\ Los conjuntos de datos disponibles son publicaciones de redes sociales o tratan sexismo y ciberacoso, no relatos universitarios de acoso sexual.\par
+\textbullet\ El significado de un relato depende del contexto y de la relación entre las personas.\par
+\textbullet\ Los casos de acoso son minoría en los datos y es fácil evaluar mal un modelo. \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia a partir de \citet{salawu2020}, \citet{bondestam2020} y \citet{dutta2025}.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+La unidad de análisis es el relato escrito en español sobre una interacción vivida en el entorno universitario, aportado de forma voluntaria por un estudiante matriculado y mayor de edad. Cada relato se clasifica por lo que cuenta, no por quién lo escribe.
+
+\section{Formulación del Problema}
+
+\subsection{Problema general}
+¿En qué medida el \proc{desarrollo de} \tec{un modelo de aprendizaje automático} permite \ctx{la detección de acoso sexual en relatos de estudiantes de la UNSAAC}, en comparación con una línea base de referencia?
+
+\subsection{Problemas específicos}
+\begin{enumerate}[label=PE\arabic*:, leftmargin=1.6cm]
+	\item ¿Qué nivel de acuerdo entre anotadores se alcanza al \proc{construir} un corpus anonimizado y anotado de \ctx{relatos de estudiantes de la UNSAAC} para entrenar el \tec{modelo de aprendizaje automático}?
+	\item ¿Qué \tec{modelo de aprendizaje automático}, y con qué tratamiento del desbalance de clases, logra el mejor desempeño en la \ctx{detección de acoso sexual} al ser \proc{entrenado y seleccionado} sin fuga de información?
+	\item ¿Qué desempeño alcanza el \tec{modelo seleccionado} al \proc{validarlo} en la \ctx{detección de acoso sexual en relatos de estudiantes de la UNSAAC} frente a una línea base de referencia, y qué errores comete?
+	\item ¿Cómo \proc{implementar} un prototipo que aplique el \tec{modelo validado} a nuevos \ctx{relatos de estudiantes de la UNSAAC} como apoyo a la revisión humana?
+\end{enumerate}
+
+\section{Objetivos}
+
+\subsection{Objetivo general}
+\proc{Desarrollar} \tec{un modelo de aprendizaje automático} \ctx{para la detección de acoso sexual en relatos de estudiantes de la UNSAAC}, cuyo desempeño se evaluará mediante el macro F1 y la exhaustividad en relatos de prueba, frente a una línea base léxica.
+
+\subsection{Objetivos específicos}
+\begin{enumerate}[label=OE\arabic*:, leftmargin=1.6cm]
+	\item \proc{Construir} un corpus anonimizado y anotado de \ctx{relatos de estudiantes de la UNSAAC} para entrenar y validar el \tec{modelo de aprendizaje automático}, determinando el nivel de acuerdo entre anotadores.
+	\item \proc{Entrenar y seleccionar} el \tec{modelo de aprendizaje automático} con mejor desempeño en la \ctx{detección de acoso sexual}, con y sin tratamiento del desbalance de clases, sin fuga de información.
+	\item \proc{Validar} el desempeño del \tec{modelo seleccionado} en la \ctx{detección de acoso sexual en relatos de estudiantes de la UNSAAC} frente a una línea base de referencia, analizando sus errores.
+	\item \proc{Implementar} un prototipo que aplique el \tec{modelo validado} a nuevos \ctx{relatos de estudiantes de la UNSAAC} como apoyo a la revisión humana.
+\end{enumerate}
+
+\section{Justificación}
+
+\subsection{Conveniencia}
+La investigación es conveniente porque responde a un vacío concreto de la UNSAAC: la universidad recibe muy pocas denuncias de hostigamiento sexual frente a lo que reportan sus estudiantes \citep{gutierrez2022}. Un modelo capaz de identificar relatos que describen acoso ayudaría a las oficinas de orientación y atención a organizar y priorizar la información que reciben, en línea con las obligaciones que la ley les impone \citep{ley27942, ds0142019}.
+
+\subsection{Relevancia}
+El acoso sexual afecta la dignidad, el bienestar y hasta la permanencia de los estudiantes en la universidad \citep{bondestam2020}. Contar con un modelo entrenado con relatos de la propia comunidad es un primer paso para que la institución pueda apoyarse en herramientas tecnológicas al atender estos casos. Quienes participen lo harán de forma voluntaria, y sus relatos serán anonimizados antes de cualquier análisis.
+
+\subsection{Implicancias prácticas}
+Desde la Ingeniería Informática y de Sistemas, el trabajo resuelve un problema práctico: construir un clasificador confiable con textos sensibles, escasos y desbalanceados, y ponerlo a disposición de quien lo necesita mediante un prototipo de fácil uso. El código, el modelo y su documentación \citep{gebru2021, mitchell2019} podrán reutilizarse en otros sistemas de la universidad que procesen información personal. El prototipo no reemplaza a quien revisa los casos; le da una segunda lectura y le muestra en qué palabras se apoyó la predicción.
+
+\subsection{Valor teórico}
+Los estudios previos analizaron temas en relatos de acoso \citep{karami2020}, clasificaron tipos de acoso \citep{wijaya2022} o detectaron revelaciones y testimonios en redes sociales, tanto en neerlandés \citep{gorissen2023} como en español \citep{escobar2022}. Ninguno trabajó con relatos de estudiantes universitarios aportados con consentimiento ni en una universidad peruana. Este trabajo aporta evidencia sobre qué tan bien aprende un modelo los criterios con los que se reconoce el acoso en un texto y en qué tipo de relatos se equivoca, lo que ayuda a acortar la distancia entre la definición social del fenómeno y su etiqueta computacional \citep{dutta2025}.
+
+\subsection{Utilidad metodológica}
+La investigación deja un procedimiento completo para trabajar con textos sensibles: cómo recolectarlos con consentimiento, cómo anonimizarlos, cómo etiquetarlos con una guía y cómo evaluar un modelo sin que los datos de prueba se filtren en el entrenamiento \citep{kapoor2023}. Este procedimiento puede servir a otros estudios que trabajen con relatos en español.
+
+\section{Delimitación de Estudio}
+El modelo trabajará con relatos escritos en español; los que estén escritos principalmente en quechua u otra lengua quedarán fuera de esta primera versión. Las etiquetas reflejarán el juicio de los anotadores sobre lo que el relato cuenta, sin verificar los hechos, y la participación voluntaria no permitirá estimar cuántos estudiantes viven acoso.
+
+\subsection{Delimitación espacial}
+El estudio se realizará en la Universidad Nacional de San Antonio Abad del Cusco, en la ciudad del Cusco, Perú, con estudiantes matriculados y mayores de edad.
+
+\subsection{Delimitación temporal}
+La investigación se ejecutará en doce meses, contados desde la aprobación del plan de tesis. Los relatos se recolectarán una sola vez, durante el periodo autorizado.
+
+\section{Hipótesis}
+
+\subsection{Hipótesis general}
+El \tec{modelo de aprendizaje automático} \proc{desarrollado} \ctx{detecta acoso sexual en relatos de estudiantes de la UNSAAC} con un desempeño significativamente superior al de una línea base de referencia.
+
+\subsection{Hipótesis específicas}
+\begin{enumerate}[label=HE\arabic*:, leftmargin=1.6cm]
+	\item El corpus de \ctx{relatos de estudiantes de la UNSAAC}, \proc{construido} con anonimización y doble anotación, alcanza un acuerdo entre anotadores al menos sustancial ($\kappa \geq 0{,}61$).
+	\item El tratamiento del desbalance de clases, aplicado al \proc{entrenar} los \tec{modelos de aprendizaje automático} candidatos, incrementa su exhaustividad en la \ctx{detección de acoso sexual}.
+	\item El \tec{modelo seleccionado}, \proc{validado} en los relatos de prueba, alcanza en la \ctx{detección de acoso sexual} una exhaustividad superior a la de la línea base léxica, incluso en relatos sin términos sexuales explícitos.
+	\item El prototipo \proc{implementado} reproduce las predicciones del \tec{modelo validado} sobre nuevos \ctx{relatos de estudiantes de la UNSAAC} y cumple los requisitos funcionales definidos.
+\end{enumerate}
+
+\subsection{Contraste de las hipótesis}
+Sea $m^{*}$ el modelo seleccionado y \textit{léx} la línea base léxica, que marca como acoso todo relato que contenga al menos una palabra de una lista de términos sexuales definida antes del entrenamiento. La hipótesis general se contrasta así:
+\begin{equation}
+\ecuacion{Hipótesis estadística general}
+H_0:\ \text{Macro}F_1^{(m^{*})} \leq \text{Macro}F_1^{(\text{léx})}
+\qquad\qquad
+H_1:\ \text{Macro}F_1^{(m^{*})} > \text{Macro}F_1^{(\text{léx})}
+\label{eq:hipotesis}
+\end{equation}
+
+Se trabajará con un nivel de significancia $\alpha = 0{,}05$. Como todos los modelos se prueban con los mismos relatos, las comparaciones son pareadas: se usará la prueba de McNemar \citep{mcnemar1947, dietterich1998} y se calcularán intervalos de confianza del 95\,\% por remuestreo \textit{bootstrap} \citep{efron1993}. $H_0$ se rechaza si $p < 0{,}05$ y el límite inferior del intervalo de la diferencia es mayor que cero. Cuando haya varias comparaciones a la vez, los valores $p$ se ajustarán con el método de \citet{holm1979}. La Tabla~\ref{tab:contraste} resume los criterios para cada hipótesis.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Criterios de contraste de las hipótesis}
+\label{tab:contraste}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}L{2cm} L{5.6cm} L{7.8cm}@{}}
+\toprule
+\textbf{Hipótesis} & \textbf{Indicador} & \textbf{Criterio de decisión} \\
+\midrule
+General & Diferencia de macro F1 entre $m^{*}$ y la línea base léxica & McNemar e IC 95\,\% \textit{bootstrap}; se rechaza $H_0$ si $p < 0{,}05$ y el límite inferior del IC es mayor que 0 \\
+HE1 & Kappa de Cohen antes de resolver desacuerdos & Se acepta si $\kappa \geq 0{,}61$, nivel sustancial según \citet{landis1977} \\
+HE2 & Exhaustividad de la clase positiva con y sin tratamiento del desbalance & Se acepta si el límite inferior del IC 95\,\% de la diferencia es mayor que 0 \\
+HE3 & Exhaustividad de $m^{*}$ y de la línea base léxica, global y en relatos sin términos explícitos & McNemar sobre los relatos con acoso, con ajuste de Holm; $p < 0{,}05$ \\
+HE4 & Coincidencia de predicciones entre prototipo y modelo; requisitos aprobados & 100\,\% de coincidencia y 100\,\% de requisitos funcionales aprobados \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} IC: intervalo de confianza. Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Variables}
+
+\subsection{Identificación de variables}
+\begin{itemize}
+	\item \textbf{Variable independiente:} modelo de aprendizaje automático, definido por la forma de representar el texto, el algoritmo de clasificación y el tratamiento del desbalance de clases.
+	\item \textbf{Variable dependiente:} detección de acoso sexual en relatos de estudiantes de la UNSAAC, medida por el desempeño del modelo en relatos de participantes que no se usaron para entrenarlo.
+	\item \textbf{Variables de control:} calidad del corpus, particiones y semillas comunes, y reproducibilidad del procedimiento.
+\end{itemize}
+
+\subsection{Operacionalización de variables}
+La Tabla~\ref{tab:operacionalizacion} detalla las dimensiones, indicadores e instrumentos de cada variable. La matriz de consistencia está en el Anexo A.
+
+\begin{table}[!htbp]
+\begin{threeparttable}
+\caption{Matriz de operacionalización de variables}
+\label{tab:operacionalizacion}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}L{2.7cm} L{2.7cm} L{4.3cm} L{3.1cm} L{2.0cm}@{}}
+\toprule
+\textbf{Variable} & \textbf{Dimensión} & \textbf{Indicador} & \textbf{Instrumento} & \textbf{Escala} \\
+\midrule
+\multirow{3}{2.7cm}{\raggedright \textbf{VI:} Modelo de aprendizaje automático} & Representación & TF-IDF con n-gramas de palabras y caracteres; representación contextual de BETO & Registro de experimentos & Nominal \\
+ & Algoritmo & Regresión logística, SVM lineal, Naïve Bayes y BETO; líneas base léxica y mayoritaria & Registro de experimentos & Nominal \\
+ & Tratamiento del desbalance & Sin tratamiento, ponderación de clases y remuestreo & Registro de experimentos & Nominal \\
+\midrule
+\multirow{3}{2.7cm}{\raggedright \textbf{VD:} Detección de acoso sexual} & Desempeño global & Macro F1 & Matriz de confusión & Razón [0, 1] \\
+ & Clase positiva & Precisión, exhaustividad y F1 de los relatos con acoso & Matriz de confusión e IC 95\,\% & Razón [0, 1] \\
+ & Errores & Cantidad y tipo de falsos positivos y falsos negativos & Ficha de análisis de errores & Razón / nominal \\
+\midrule
+\multirow{2}{2.7cm}{\raggedright \textbf{Control:} calidad del corpus} & Acuerdo entre anotadores & Kappa de Cohen y acuerdo porcentual & Ficha de anotación & Razón \\
+ & Cobertura & Tasa de exclusión y proporción de clases & Registro de exclusiones & Razón \\
+\midrule
+\textbf{Control:} reproducibilidad & Reproducibilidad & Diferencia de métricas entre reejecuciones & Control de versiones & Razón \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\section{Método}
+
+\subsection{Tipo}
+Es una investigación aplicada de tipo tecnológico, porque usa conocimientos de aprendizaje automático y procesamiento del lenguaje natural para construir un modelo y un prototipo que atienden un problema concreto de la universidad. Tiene enfoque cuantitativo, ya que el desempeño de los modelos se mide con números y las hipótesis se contrastan con pruebas estadísticas \citep{sampieri}. Su alcance es explicativo: el objetivo general pide desarrollar el modelo y comprobar que detecta el acoso mejor que una línea base, lo que exige establecer el efecto del algoritmo y del tratamiento del desbalance sobre el desempeño.
+
+\subsection{Diseño}
+El diseño es experimental, en la forma de un experimento computacional factorial con medidas repetidas. Se manipulan dos factores, el algoritmo y el tratamiento del desbalance, se mide el desempeño de cada combinación y se compara con dos líneas base que actúan como grupos de control \citep{sampieri}. Los participantes se reparten al azar entre los conjuntos de desarrollo y prueba, y cada relato de prueba es clasificado por todas las configuraciones, así que cada relato funciona como su propio control. Con las personas no se interviene de ningún modo: solo se recogen sus relatos una vez.
+
+Este diseño responde a la naturaleza del problema. Lo que se quiere saber es si un modelo detecta el acoso mejor que otro, y la forma más justa de averiguarlo es enfrentar a todos con los mismos relatos, sin que ninguno los haya visto al entrenar. Las medidas repetidas permiten usar pruebas pareadas como la de McNemar, recomendada para comparar clasificadores \citep{dietterich1998}, y la separación por participante evita la fuga de información descrita por \citet{kapoor2023}.
+
+El esquema del diseño es el siguiente, y la Tabla~\ref{tab:factores} muestra los niveles de cada factor:
+\begin{equation}
+\ecuacion{Esquema del diseño experimental}
+R \;\rightarrow\; \left\{
+\begin{array}{ll}
+X_{0} \rightarrow O_{0},\; X_{1} \rightarrow O_{1} & \text{(control: líneas base mayoritaria y léxica)}\\[2pt]
+X_{ij} \rightarrow O_{ij} & i \in \{2,3,4,5\},\; j \in \{0,1,2\}
+\end{array}\right.
+\label{eq:diseno}
+\end{equation}
+donde $R$ es la asignación aleatoria de participantes, $X_{ij}$ la configuración formada por el algoritmo $i$ y el tratamiento $j$, y $O_{ij}$ las métricas obtenidas sobre los mismos relatos de prueba.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Niveles de los factores del diseño experimental}
+\label{tab:factores}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}L{3.6cm} L{6.6cm} L{5.2cm}@{}}
+\toprule
+\textbf{Factor} & \textbf{Niveles} & \textbf{Observación} \\
+\midrule
+A: Algoritmo & $A_0$ línea base mayoritaria y $A_1$ línea base léxica (control); $A_2$ regresión logística, $A_3$ SVM lineal y $A_4$ Naïve Bayes con TF-IDF; $A_5$ BETO & BETO se entrena en un equipo local, sin enviar relatos a servicios externos \\
+B: Tratamiento del desbalance & $B_0$ sin tratamiento (control); $B_1$ ponderación de clases; $B_2$ remuestreo dentro del entrenamiento & $B_2$ solo se aplica con TF-IDF \\
+\midrule
+Configuraciones & \multicolumn{2}{L{11.8cm}}{2 controles, 9 combinaciones con TF-IDF y 2 con BETO: 13 configuraciones probadas con los mismos relatos} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Objeto de estudio, población y muestra}
+El objeto de estudio es el corpus de relatos escritos en español sobre situaciones vividas en la UNSAAC: sobre esos textos se entrenan y se prueban los modelos. Los relatos provienen de una población formada por los estudiantes mayores de edad matriculados en la UNSAAC durante el periodo de recolección. El muestreo será no probabilístico, por participación voluntaria, procurando que participen estudiantes de distintas escuelas y semestres. Primero se hará un piloto con unos 40 relatos para probar el formulario, la anonimización y la guía de anotación; la muestra principal será de 400 a 600 relatos válidos, lo que permite reservar alrededor de 100 relatos para la prueba final y entrenar con el resto. Si una persona aporta más de un relato, todos irán al mismo conjunto, de desarrollo o de prueba.
+
+No hace falta haber vivido acoso para participar. También se invitará a contar situaciones universitarias comunes, sin acoso, para que el modelo aprenda a distinguir ambos casos. Se recogen relatos propios en lugar de usar un conjunto público porque los disponibles en español son tuits o mensajes sobre otros fenómenos, no relatos universitarios \citep{rodriguez2021exist, escobar2022}. Se descartarán los relatos duplicados, los que cuenten experiencias de terceros sin autorización, los que contengan datos personales imposibles de retirar y los que no den información suficiente.
+
+\subsection{Técnicas e instrumentos de recolección de datos}
+Hay dos tipos de instrumentos. Para construir el corpus se usarán una ficha de consentimiento, un formulario de relato voluntario (Anexo C), una ficha de anonimización y una guía de anotación (Anexo B); la guía será revisada por al menos dos especialistas en acoso sexual y un especialista en metodología. Para medir el desempeño de los modelos no se usarán encuestas, sino instrumentos automáticos: \textit{scripts} de evaluación que calculan las métricas a partir de las matrices de confusión, un registro de experimentos que guarda la configuración, las semillas y los resultados de cada ejecución, y los registros (\textit{logs}) del prototipo para medir su tiempo de respuesta.
+
+Dos anotadores capacitados etiquetarán cada relato por separado como \textit{con acoso sexual}, \textit{sin acoso sexual} o \textit{información insuficiente}. Antes de resolver sus diferencias se medirá cuánto coinciden, con el acuerdo porcentual y el kappa de Cohen; luego un especialista resolverá los desacuerdos. Para entrenar el modelo solo se usarán los relatos con una etiqueta final clara.
+
+\subsection{Técnicas de procesamiento y análisis de datos}
+El procesamiento se programará en Python, con scikit-learn \citep{pedregosa2011} para los modelos con TF-IDF y la biblioteca Transformers \citep{wolf2020} para BETO; la elección de estas herramientas se justifica en el Capítulo 2. La vectorización y el remuestreo se ajustarán solo con los datos de entrenamiento de cada pliegue, y los relatos casi idénticos se agruparán antes de dividir el corpus, para que una misma experiencia no aparezca a la vez en entrenamiento y prueba. Se registrarán las semillas, versiones, particiones y parámetros de cada experimento. Los modelos se validarán con validación cruzada agrupada de cinco pliegues y, al final, con una prueba única sobre los relatos reservados. Para las métricas principales se calcularán intervalos de confianza del 95\,\% mediante remuestreo por participante, y las comparaciones se harán con la prueba de McNemar (Ecuación~\ref{eq:mcnemar}) y el ajuste de Holm.
+
+\subsection{Entorno de pruebas}
+Todos los experimentos se ejecutarán en un equipo local, sin servicios en la nube. La Tabla~\ref{tab:entorno} detalla sus características mínimas. Las versiones de cada biblioteca se fijarán en un archivo de dependencias al iniciar los experimentos, para que cualquiera pueda repetirlos.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Entorno de pruebas}
+\label{tab:entorno}
+\singlespacing\small
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{@{}L{3.6cm} L{11.8cm}@{}}
+\toprule
+\textbf{Componente} & \textbf{Especificación} \\
+\midrule
+Procesador & CPU de 8 núcleos o más \\
+Memoria & 16 GB de RAM \\
+GPU & NVIDIA con al menos 8 GB de memoria y soporte CUDA, para el ajuste fino de BETO \\
+Almacenamiento & Disco SSD con cifrado activado \\
+Sistema operativo & Ubuntu 22.04 LTS \\
+Lenguaje & Python 3.11 \\
+Aprendizaje automático & scikit-learn 1.5, imbalanced-learn 0.12, PyTorch 2.4 y Transformers 4.44 \\
+Explicabilidad & SHAP 0.46 \\
+Prototipo & FastAPI 0.115 (servidor) y React 18 (interfaz) \\
+Modelo preentrenado & BETO, versión \texttt{bert-base-spanish-wwm-cased} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\subsection{Consideraciones éticas}
+No se recogerá ningún relato antes de contar con la aprobación del comité de ética y de la universidad. El consentimiento explicará para qué se usará el relato, quién tendrá acceso, cuánto tiempo se guardará y cómo retirarse. Nadie estará obligado a participar ni sufrirá consecuencias académicas por no hacerlo, y la convocatoria no se hará a través de docentes que evalúen a los estudiantes. El formulario aclarará que no es un canal de denuncia e indicará a dónde acudir si se necesita ayuda.
+
+No se pedirán nombres de las personas involucradas. Antes del entrenamiento, una revisión manual eliminará cualquier dato que permita identificar a alguien. Los archivos se guardarán cifrados y todo el procesamiento, incluido el entrenamiento de BETO, se hará en equipos locales, sin enviar los relatos a servicios en la nube ni a sistemas de inteligencia artificial generativa. El corpus no se publicará; el código se compartirá solo con datos de ejemplo. Las predicciones del modelo no se usarán para sancionar ni para identificar responsables.
+
+\subsection{Cronograma de actividades}
+La Tabla~\ref{tab:cronograma} y la Figura~\ref{fig:gantt} muestran la programación de las actividades.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Cronograma de actividades}
+\label{tab:cronograma}
+\singlespacing
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{6.4cm} L{2.4cm} L{6.6cm}@{}}
+\toprule
+\textbf{Actividad} & \textbf{Meses} & \textbf{Producto} \\
+\midrule
+Revisión bibliográfica y autorización ética & 1 y 2 & Protocolo aprobado \\
+Elaboración de instrumentos y piloto & 3 & Instrumentos validados \\
+Recolección de relatos & 4 y 5 & Relatos recibidos \\
+Anonimización y anotación & 5 a 7 & Corpus anotado \\
+Entrenamiento y selección del modelo & 8 y 9 & Modelo seleccionado \\
+Validación final y análisis de errores & 10 & Resultados \\
+Implementación del prototipo & 10 y 11 & Prototipo verificado \\
+Redacción y sustentación & 11 y 12 & Informe final de tesis \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Los meses se cuentan desde la aprobación del plan. Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[H]
+\caption{Diagrama de Gantt de la investigación}
+\label{fig:gantt}
+\centering
+\begin{ganttchart}[
+	hgrid, vgrid,
+	x unit=0.72cm,
+	y unit chart=0.6cm,
+	y unit title=0.6cm,
+	title label font=\scriptsize\bfseries,
+	bar label font=\small,
+	bar/.append style={fill=diagAzul!60, draw=diagAzul},
+	bar height=0.55,
+	milestone/.append style={fill=diagRojo, draw=diagRojo},
+	milestone label font=\small\itshape
+	]{1}{12}
+	\gantttitle{Meses}{12} \\
+	\gantttitlelist{1,...,12}{1} \\
+	\ganttbar{Revisión bibliográfica y autorización}{1}{2} \\
+	\ganttbar{Instrumentos y piloto}{3}{3} \\
+	\ganttbar{Recolección de relatos}{4}{5} \\
+	\ganttbar{Anonimización y anotación}{5}{7} \\
+	\ganttbar{Entrenamiento y selección}{8}{9} \\
+	\ganttbar{Validación y análisis de errores}{10}{10} \\
+	\ganttbar{Implementación del prototipo}{10}{11} \\
+	\ganttbar{Redacción y sustentación}{11}{12} \\
+	\ganttmilestone{Sustentación}{12}
+\end{ganttchart}
+
+\raggedright\textit{Nota.} Elaboración propia.
+\end{figure}
+
+\section{Presupuesto}
+La Tabla~\ref{tab:presupuesto} muestra el presupuesto en soles. La investigación se financiará con recursos propios. Se cuenta con una computadora personal, y el trabajo de la tesista no se incluye como costo.
+
+\begin{table}[H]
+\begin{threeparttable}
+\caption{Presupuesto de la investigación}
+\label{tab:presupuesto}
+\singlespacing
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{@{}L{6.4cm} L{5.4cm} r@{}}
+\toprule
+\textbf{Concepto} & \textbf{Detalle} & \textbf{Subtotal (S/)} \\
+\midrule
+Internet y respaldo cifrado & 12 meses a S/ 30 & 360 \\
+Revisión de especialistas y anotación & Honorarios & 900 \\
+Uso de equipo con GPU para entrenar BETO & Equipo o laboratorio local & 400 \\
+Difusión de la convocatoria & Afiches y materiales & 120 \\
+Impresiones y trámites & Ejemplares y derechos & 200 \\
+\midrule
+\textbf{Subtotal} & & \textbf{1980} \\
+Imprevistos & 10\,\% del subtotal & 198 \\
+\midrule
+\textbf{Total} & & \textbf{2178} \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\small
+\item \textit{Nota.} Elaboración propia.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}

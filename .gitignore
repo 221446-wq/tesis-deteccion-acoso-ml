@@ -1,0 +1,35 @@
+# Datos sensibles: nunca se suben
+datos/**
+!datos/README.md
+
+# Modelos entrenados y salidas pesadas
+*.pt
+*.bin
+*.safetensors
+modelos/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+
+# LaTeX
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.toc
+*.lof
+*.lot
+*.loa
+*.equ
+*.anx
